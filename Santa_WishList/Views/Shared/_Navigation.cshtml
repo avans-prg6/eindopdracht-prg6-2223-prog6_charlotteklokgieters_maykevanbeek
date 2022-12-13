@@ -1,0 +1,34 @@
+﻿@*@inject SignInManager<Employee> SignInManager*@
+
+@{ var controller = this.ViewContext.RouteData.Values["controller"] != null ? this.ViewContext.RouteData.Values["controller"].ToString() : ""; }
+
+@*@if (SignInManager.IsSignedIn(User))
+{*@
+	<header>
+		<nav class="">
+			<div class="">
+				<a class="" asp-controller="Home" asp-action="Index">@*<img src="/images/logo.png" class="w-24"/>*@</a>
+				<i class="" onclick="toggleNav(event)"></i>
+			</div>
+			<div id="navigationMenu" class="">
+			@if (User.IsInRole("Santa"))
+			{
+				<a asp-controller="Santa" asp-action="Index" class="">Home</a>
+			}
+
+			@if (User.IsInRole("Kid"))
+			{
+				<a asp-controller="Kid" asp-action="Index" class="">Home</a>
+			}
+
+			<a asp-controller="Login" asp-action="Login" class="">Login</a>
+			</div>
+		</nav>
+	</header>
+@*}
+else
+{
+	<header>
+		<nav class="">@*<img src="/images/logo.png" class="w-24"/>*@</nav>
+	</header>
+}*@

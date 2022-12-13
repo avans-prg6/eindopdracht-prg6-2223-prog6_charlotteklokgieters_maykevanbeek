@@ -1,0 +1,33 @@
+﻿@model SantaViewModel;
+
+<div class="text-center">
+    <div>
+        <h1 class="display-4">Welkom terug Kerstman!</h1>
+        <p>Welke kinderen mogen deze keer hun verlanglijstje invullen?</p>
+    </div>
+    
+    @*line*@
+
+    <div>
+        <form asp-controller="Santa" asp-action="MakeAccounts">
+            <p>Alle namen:</p>
+            <input type="text" class="" name="names" id="names" value="">
+            <p>Typ alle namen met comma's ertussen</p>
+
+            @*line*@
+
+            <p>Zijn deze kinderen braaf geweest?</p>
+            <label class="switch">
+                <input type="checkbox" class="" name="beenNice" id="beenNice">
+                <span class="slider round"></span>
+                Ja deze kinderen zijn braaf!
+            </label>
+
+            <p>Wachtwoord</p>
+            <input type="text" class="" name="password" id="password" value="">
+            <p>Maak het wachtwoord voor de kindjes niet moeilijk hè!</p>
+
+            <button type="submit" class="" name="save" role="button">Accounts voor kindjes maken!</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@model KidViewModel;
+@using SantasWishlist.Domain;
+
+<div class="text-center">
+	<div>
+		<h1 class="display-4">Bedankt @Model.Name!</h1>
+		<p>Nu is het tijd om je cadeautjes uit te kiezen!</p>
+		<br />
+		<p>De cadeautjes zijn opgedeeld in 4 categoriën en je mag voor elke categorie kiezen welke cadeautjes je wil!</p>
+	</div>
+
+	@*line*@
+
+	<form asp-controller="Kid" asp-action="PersonalInfo">
+		<div>
+			<h2 class="display-4">Iets dat je wil hebben</h2>
+
+			
+			<div>
+				<input type="checkbox" id="lego" name="lego" value="True">
+				<label for="lego">Lego</label>
+			</div>
+
+		</div>
+
+		<div>
+			<h2 class="display-4">Iets dat je moet hebben</h2>
+		</div>
+
+		<div>
+			<h2 class="display-4">Iets om te dragen</h2>
+		</div>
+
+		<div>
+			<h2 class="display-4">Iets om te lezen</h2>
+		</div>
+
+
+
+		
+
+		<button type="submit" class="" name="save" role="button">Naar de volgende stap!</button>
+	</form>
+</div>
