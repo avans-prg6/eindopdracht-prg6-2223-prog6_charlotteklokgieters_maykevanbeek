@@ -11,37 +11,76 @@
 
 	@*line*@
 
-	<form asp-controller="Kid" asp-action="PersonalInfo">
+	<form asp-controller="Kid" asp-action="ChoosingGifts">
 		<div>
 			<h2 class="display-4">Iets dat je wil hebben</h2>
 
-			@Model.PossibleGifts
-
-			foreach()
-
-			<div>
-				<input type="checkbox" id="lego" name="lego" value="True">
-				<label for="lego">Lego</label>
-			</div>
-
+			@foreach(Gift gift in @Model.PossibleGifts)
+			{
+				@if (gift.Category == GiftCategory.WANT)
+				{
+					<div>
+						<input type="checkbox" id="@gift.Name" name="chosenGifts" value="@gift">
+						<label for="@gift.Name">@gift.Name</label>
+					</div>
+				}
+			}
 		</div>
 
 		<div>
 			<h2 class="display-4">Iets dat je moet hebben</h2>
+
+			@foreach (Gift gift in @Model.PossibleGifts)
+			{
+				@if (gift.Category == GiftCategory.NEED)
+				{
+					<div>
+						<input type="checkbox" id="@gift.Name" name="chosenGifts" value="@gift">
+						<label for="@gift.Name">@gift.Name</label>
+					</div>
+				}
+			}
 		</div>
 
 		<div>
 			<h2 class="display-4">Iets om te dragen</h2>
+
+			@foreach (Gift gift in @Model.PossibleGifts)
+			{
+				@if (gift.Category == GiftCategory.WEAR)
+				{
+					<div>
+						<input type="checkbox" id="@gift.Name" name="chosenGifts" value="@gift">
+						<label for="@gift.Name">@gift.Name</label>
+					</div>
+				}
+			}
 		</div>
 
 		<div>
 			<h2 class="display-4">Iets om te lezen</h2>
+
+			@foreach (Gift gift in @Model.PossibleGifts)
+			{
+				@if (gift.Category == GiftCategory.READ)
+				{
+					<div>
+						<input type="checkbox" id="@gift.Name" name="chosenGifts" value="@gift">
+						<label for="@gift.Name">@gift.Name</label>
+					</div>
+				}
+			}
 		</div>
 
+		@*line*@
 
+		<div>
+			<h2 class="display-4">Staat wat je wil er niet tussen?</h2>
+			<input type="text" class="" name="other" id="other">
+			<p>Vul deze vraag alleen in als je zeker weet dat het cadeautje wat je wilt niet in de bovenstaande lijst staat!</p>
+		</div>
 
-		
-
-		<button type="submit" class="" name="save" role="button">Naar de volgende stap!</button>
+		<input type="hidden" id="previous" name="previous" value="@Model">
+		<button type="submit" class="" name="save" role="button">Naar afronden!</button>
 	</form>
 </div>

@@ -7,14 +7,20 @@ namespace Santa_WishList.Models
 	public class KidViewModel
 	{
 		public string Name { get; set; }
+
 		[Required(ErrorMessage = "Je moet je leeftijd invullen!")]
 		[RegularExpression("^[0-9]*$", ErrorMessage = "Je kan geen tekens anders dan getallen invullen voor je leeftijd!")]
 		[CustomValidation(typeof(ValidationMethods), "NoNegativesOrZero")]
 		public int Age { get; set; }
+
 		public Niceness Niceness { get; set; }
+
 		[CustomValidation(typeof(ValidationMethods), "GiveNicenessExample")]
-		public string NicenessExample { get; set; }
-		public List<Gift> PossibleGifts { get; set; }	
+		public string? NicenessExample { get; set; }
+
+		public List<Gift> PossibleGifts { get; set; }
+
+		public List<Gift> ChosenGifts { get; set; }
 	}
 
 	//TODO verplaats class
@@ -34,6 +40,7 @@ namespace Santa_WishList.Models
 			}
 		}
 
+		//TODO deze hoeft alleen als t kind niet naughty is
 		public static ValidationResult GiveNicenessExample(string input, ValidationContext context)
 		{
 			if (input != null)

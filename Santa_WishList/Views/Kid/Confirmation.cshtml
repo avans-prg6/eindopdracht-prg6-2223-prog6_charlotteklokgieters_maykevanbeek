@@ -1,0 +1,31 @@
+﻿@model KidViewModel;
+@using SantasWishlist.Domain;
+
+<div class="text-center">
+	<div>
+		<h1 class="display-4">Bedankt @Model.Name!</h1>
+		<p>Hier is nog een laatste overzicht van je verlanglijstje!</p>
+	</div>
+
+	@*line*@
+
+	<div>
+		<h2 class="display-4">Gekozen cadeautjes: </h2>
+		@foreach (Gift gift in Model.ChosenGifts)
+		{
+			<p>@gift.Name, </p>
+		}
+	</div>
+
+	<form asp-controller="Kid" asp-action="Confirm">
+		
+		<button type="submit" class="" name="save" role="button">Ja, dit zijn de cadeautjes die ik wil!</button>
+	</form>
+
+	<br />
+
+	<form asp-controller="Kid" asp-action="BackToWishlist">
+		<input type="hidden" id="previous" name="previous" value="@Model">
+		<button type="submit" class="" name="save" role="button">Dit klopt niet, ik wil terug naar de vorige stap!</button>
+	</form>
+</div>
