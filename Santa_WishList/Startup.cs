@@ -27,9 +27,11 @@ namespace Santa_WishList
 
             services.AddScoped<IGiftRepository>();
 
+            //services.AddScoped<IDrankjesRepository, DrankjesRepositorySQL>();
+
             services.AddControllersWithViews();
         }
- 
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
