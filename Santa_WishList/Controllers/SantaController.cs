@@ -7,13 +7,6 @@ namespace Santa_WishList.Controllers
 {
     public class SantaController : Controller
     {
-        //private readonly RepositoryHandler _repositoryHandler;
-
-        //public SantaController(RepositoryHandler repositoryHandler)
-        //{
-        //    _repositoryHandler = repositoryHandler;
-        //}
-
         //[Route("{controller}/{year}/{week}/{department}")]
         //[Authorize(Roles = "Santa")]
         public IActionResult Index()
