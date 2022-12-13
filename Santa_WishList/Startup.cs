@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SantasWishlist.Domain;
 using SantasWishlist_Data;
 
 namespace Santa_WishList
@@ -24,13 +25,11 @@ namespace Santa_WishList
                 options.SignIn.RequireConfirmedAccount = false;
             }).AddEntityFrameworkStores<SantaDbContext>();
 
-
-
-            //services.AddScoped<IDrankjesRepository, DrankjesRepositorySQL>();
+            services.AddScoped<IGiftRepository>();
 
             services.AddControllersWithViews();
         }
-
+ 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
