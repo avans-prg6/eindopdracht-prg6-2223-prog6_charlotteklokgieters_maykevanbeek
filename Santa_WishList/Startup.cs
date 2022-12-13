@@ -25,7 +25,7 @@ namespace Santa_WishList
                 options.SignIn.RequireConfirmedAccount = false;
             }).AddEntityFrameworkStores<SantaDbContext>();
 
-            services.AddScoped<IGiftRepository>();
+            services.AddScoped<GiftRepository>();
 
             //services.AddScoped<IDrankjesRepository, DrankjesRepositorySQL>();
 

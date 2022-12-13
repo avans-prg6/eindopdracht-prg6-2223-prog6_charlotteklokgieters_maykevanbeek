@@ -11,10 +11,10 @@
 				<i class="" onclick="toggleNav(event)"></i>
 			</div>
 			<div id="navigationMenu" class="">
-			@if (User.IsInRole("Santa"))
-			{
+			@*@if (User.IsInRole("Santa"))
+			{*@
 				<a asp-controller="Santa" asp-action="Index" class="">Home</a>
-			}
+			@*}*@
 
 			@if (User.IsInRole("Kid"))
 			{
@@ -29,6 +29,6 @@
 else
 {
 	<header>
-		<nav class="">@*<img src="/images/logo.png" class="w-24"/>*@</nav>
+		<nav class="">@*<img src="/images/logo.png" class="w-24"/></nav>
 	</header>
 }*@

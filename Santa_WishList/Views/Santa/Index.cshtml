@@ -1,30 +1,42 @@
-﻿@model SantaViewModel;
+﻿@model string
 
-<div class="text-center">
+<div style="margin-left: 200px">
     <div>
         <h1 class="display-4">Welkom terug Kerstman!</h1>
         <p>Welke kinderen mogen deze keer hun verlanglijstje invullen?</p>
     </div>
     
-    @*line*@
+    <hr />
+
+    @if (ViewBag.Errors != null)
+    {
+        <br />
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" style="margin-left: 100px; width: 20%;">
+            @foreach (string e in ViewBag.Errors)
+            {
+                <strong class="font-bold">Er ging iets mis:</strong>
+                <span class="block sm:inline">@e</span>
+            }
+        </div>
+    }
 
     <div>
         <form asp-controller="Santa" asp-action="MakeAccounts">
-            <p>Alle namen:</p>
-            <input type="text" class="" name="names" id="names" value="">
-            <p>Typ alle namen met comma's ertussen</p>
+            <label>Alle namen:</label><br>
+            <textarea name="names" id="names" style="width: 600px; height: 200px;" required>@Model</textarea>
+            <p style="color: grey;">Typ alle namen met comma's ertussen</p>
 
-            @*line*@
+            <hr />
 
-            <p>Zijn deze kinderen braaf geweest?</p>
+            <label>Zijn deze kinderen braaf geweest?</label><br>
             <label class="switch">
-                <input type="checkbox" class="" name="beenNice" id="beenNice">
+                <input type="checkbox" class="" name="beenNice" id="beenNice" />
                 <span class="slider round"></span>
                 Ja deze kinderen zijn braaf!
-            </label>
+            </label><br><br />
 
-            <p>Wachtwoord</p>
-            <input type="text" class="" name="password" id="password" value="">
+            <label>Wachtwoord</label><br>
+            <input type="password" class="" name="password" id="password" value="" required>
             <p>Maak het wachtwoord voor de kindjes niet moeilijk hè!</p>
 
             <button type="submit" class="" name="save" role="button">Accounts voor kindjes maken!</button>
