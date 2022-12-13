@@ -1,0 +1,23 @@
+﻿@model InputModel
+
+<h1>Login</h1>
+ 
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Inloggen</button>
+        </form>
+    </div>
+</div>

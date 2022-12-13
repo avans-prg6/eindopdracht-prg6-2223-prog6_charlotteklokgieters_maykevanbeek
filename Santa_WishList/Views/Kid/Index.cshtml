@@ -1,0 +1,50 @@
+﻿@model KidViewModel;
+
+<div class="text-center">
+	<div>
+		<h1 class="display-4">Welkom @Model.Name</h1>
+		<p>De <b>Kerstman</b> heeft gevraagd of je je verlanglijstje wil invullen!</p>
+		<br />
+		<p>Voor we cadeautjes uitkiezen, moeten we je eerst wat vragen</p>
+	</div>
+	
+	@*line*@
+
+	<form asp-controller="Kid" asp-action="PersonalInfo">
+		<div>
+			<p>Hoe oud ben je?</p>
+			<input type="text" class="" name="age" id="age">
+		</div>
+
+		@*line*@
+
+		<div>
+			<p>Ben je braaf geweest?</p>
+			<div class="radiobutton">
+			<label>
+					<input type="radio" name="niceness" value="Very_Nice" checked>Heel braaf!>
+			</label>
+			</div>
+			<div class="radiobutton">
+				<label>
+					<input type="radio" name="niceness" value="A_Little">Een beetje braaf...>
+				</label>
+			</div>
+			<div class="radiobutton">
+				<label>
+					<input type="radio" name="niceness" value="Naughty">Ik heb het geprobeerd.>
+				</label>
+			</div>
+		</div>
+
+		@*line*@
+
+		<div>
+			<p>Wat heb je dan gedaan dat je zo braaf bent geweest?</p>
+			<input type="text" class="" name="example" id="example">
+			<p>Vul deze vraag alleen in als je braaf bent geweest!</p>
+		</div>
+
+		<button type="submit" class="" name="save" role="button">Naar de volgende stap!</button>
+	</form>
+</div>
