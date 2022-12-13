@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SantasWishlist.Domain;
+using System.ComponentModel.DataAnnotations;
 using static Santa_WishList.Controllers.KidController;
 
 namespace Santa_WishList.Models
@@ -13,6 +14,7 @@ namespace Santa_WishList.Models
 		public Niceness Niceness { get; set; }
 		[CustomValidation(typeof(ValidationMethods), "GiveNicenessExample")]
 		public string NicenessExample { get; set; }
+		public List<Gift> PossibleGifts { get; set; }	
 	}
 
 	//TODO verplaats class
