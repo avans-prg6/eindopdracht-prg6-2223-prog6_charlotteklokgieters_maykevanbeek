@@ -12,14 +12,12 @@ namespace Santa_WishList.Controllers
     {
         //[Route("{controller}/{year}/{week}/{department}")]
         private readonly SantaDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly AccountController controller;
 
-        public SantaController(SantaDbContext context, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public SantaController(SantaDbContext context, AccountController controller)
         {
             _context = context;
-            _userManager = userManager;
-            _signInManager = signInManager;
+            this.controller = controller;
         }
 
         public IActionResult Index()
@@ -27,17 +25,17 @@ namespace Santa_WishList.Controllers
             return View("Index", "");
         }
 
-        public IActionResult MakeAccounts(string names, bool beenNice, string password)
+        public async Task<IActionResult> MakeAccounts(string names, bool beenNice, string password)
         {
             string[] kids = names.Split(", ");
             bool error = false;
             List<string> dubbles = new List<string>();
             List<string> accounts = new List<string>();
+            bool succes = true;
 
             foreach (string kid in kids)
             {
-               
-                if (!accounts.Contains(kid) && _context.Users.Where(x => x.UserName == kid).FirstOrDefault() != null)
+                if (!accounts.Contains(kid) && _context.Users.Where(x => x.UserName == kid).FirstOrDefault() == null)
                 {
                     accounts.Add(kid);
                 } 
@@ -50,23 +48,23 @@ namespace Santa_WishList.Controllers
 
             if (!error)
             {
-                //bool worked = true;
-                //foreach(string kid in kids)
-                //{
-                //    if(Register(kid, password))
-                //    {
+                foreach (string kid in kids)
+                {
+                    InputModel model = new InputModel();
+                    model.Name = kid;
+                    model.Password = password;
 
-                //    }
-                //}
+                    if(!await controller.Register(model))
+                    {
+                        succes = false;
+                    }
+                }
 
-                //if()
-                //SantaViewModel model = new SantaViewModel();
-                //model.KidsNames = names;
-                //model.Password = password;
+                SantaViewModel vm = new SantaViewModel();
+                vm.KidsNames = names;
+                vm.Password = password;
 
-                //return View("Overview", model);
-
-
+                return View("Overview", vm);
             }
             else
             {
@@ -82,22 +80,6 @@ namespace Santa_WishList.Controllers
 
                 return View("Index", names);
             }
-        }
-
-        public async Task<bool> Register(string name, string password)
-        {
-           
-                var user = new IdentityUser { UserName = name };
-                var result = await _userManager.CreateAsync(user, password);
-                if (result.Succeeded)
-                {
-                
-                    return true;
-                }
-                else
-                {
-                     return false;
-                }
         }
     }
 }

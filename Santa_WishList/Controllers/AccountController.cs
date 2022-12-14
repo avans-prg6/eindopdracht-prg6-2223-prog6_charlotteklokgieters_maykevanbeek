@@ -23,16 +23,21 @@ namespace Santa_WishList.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(InputModel Input)
+        public async Task<bool> Register(InputModel Input)
         {
+            bool succes = false;
+
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Name };
+                IdentityUser user = new IdentityUser();
+                user.UserName = Input.Name.ToLower();
+                user.NormalizedUserName = Input.Name.ToUpper();
+                user.SecurityStamp = Guid.NewGuid().ToString();
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect("/");
+                    succes = true;
                 }
                 foreach (var error in result.Errors)
                 {
@@ -40,7 +45,7 @@ namespace Santa_WishList.Controllers
                 }
             }
 
-            return View();
+            return succes;
         }
 
         public IActionResult Login()
