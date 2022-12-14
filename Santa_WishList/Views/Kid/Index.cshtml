@@ -30,8 +30,7 @@
 		<div>
 			<label>Hoe oud ben je?</label>
 			<br />
-			<input type="text" class="" name="age" id="age" required="required">
-			@Html.ValidationMessageFor(m => m.Age)
+			<input type="number" class="" name="age" id="age" min="1">
 		</div>
 
 		<br />

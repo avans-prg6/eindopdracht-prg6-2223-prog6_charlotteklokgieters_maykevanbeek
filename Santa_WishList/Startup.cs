@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Santa_WishList.Controllers;
 using SantasWishlist.Domain;
 using SantasWishlist_Data;
+using SantasWishlist_Data.Models;
 
 namespace Santa_WishList
 {
@@ -29,12 +30,12 @@ namespace Santa_WishList
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<SantaDbContext>();
+            }).AddEntityFrameworkStores<SantaDbContext>()
+            .AddSignInManager<SignInManager<IdentityUser>>();
 
             services.AddScoped<GiftRepository>();
             services.AddScoped<AccountController>();
 
-            //services.AddScoped<IDrankjesRepository, DrankjesRepositorySQL>();
 
             services.AddControllersWithViews();
         }

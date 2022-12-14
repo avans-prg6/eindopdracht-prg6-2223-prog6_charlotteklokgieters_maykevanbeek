@@ -23,8 +23,8 @@ namespace Santa_WishList.Controllers
 		public IActionResult Index()
 		{
 			KidViewModel model = new KidViewModel();
-			//TODO model.Name = this.User.Identity.Name;
-			model.Name = "Charlotte";
+			model.Name = this.User.Identity.Name;
+			//model.Name = "Charlotte";
 
 			return View("Index", model);
 		}
@@ -33,7 +33,7 @@ namespace Santa_WishList.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				List<string> errors = ModelState.Values.SelectMany(ms => ms.Errors).Select(err => err.ErrorMessage).ToList();
+                List<string> errors = ModelState.Values.SelectMany(ms => ms.Errors).Select(err => err.ErrorMessage).ToList();
 
 				ViewBag.Errors = errors;
 				return Index();

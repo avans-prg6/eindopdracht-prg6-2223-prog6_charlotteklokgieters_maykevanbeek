@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SantasWishlist_Data;
 
@@ -11,9 +12,10 @@ using SantasWishlist_Data;
 namespace SantasWishlist_Data.Migrations
 {
     [DbContext(typeof(SantaDbContext))]
-    partial class SantaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221214134134_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,14 +54,14 @@ namespace SantasWishlist_Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "11cd77c7-ccff-42e8-92e1-39972b96a7d8",
+                            ConcurrencyStamp = "e6a2c529-5916-4b4e-9784-b8253f3ec94f",
                             Name = "Santa",
                             NormalizedName = "SANTA"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "8f4a8874-aa05-4559-a3a8-e89bfd79e4a0",
+                            ConcurrencyStamp = "83e291af-cedd-4d80-8b09-73943499ca4c",
                             Name = "Child",
                             NormalizedName = "CHILD"
                         });
@@ -153,22 +155,6 @@ namespace SantasWishlist_Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ec47a3cc-b70e-479c-87ed-ae1a8a289a91",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c727ea2-6136-47b7-ab7d-0d979053028e",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "SANTA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO0o04fxvtlJ5ZtmJR0Jl3EML/2fKozxFGLD1sdZiR0gFGVqB0qmEDL1MUj7CoYrbw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "2da2631d-82f6-4999-93c1-48cd6d3c56e1",
-                            TwoFactorEnabled = false,
-                            UserName = "Santa"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -231,13 +217,6 @@ namespace SantasWishlist_Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "ec47a3cc-b70e-479c-87ed-ae1a8a289a91",
-                            RoleId = "1"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

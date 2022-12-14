@@ -31,7 +31,6 @@ namespace Santa_WishList.Controllers
             bool error = false;
             List<string> dubbles = new List<string>();
             List<string> accounts = new List<string>();
-            bool succes = true;
 
             foreach (string kid in kids)
             {
@@ -54,10 +53,7 @@ namespace Santa_WishList.Controllers
                     model.Name = kid;
                     model.Password = password;
 
-                    if(!await controller.Register(model))
-                    {
-                        succes = false;
-                    }
+                    await controller.Register(model);
                 }
 
                 SantaViewModel vm = new SantaViewModel();

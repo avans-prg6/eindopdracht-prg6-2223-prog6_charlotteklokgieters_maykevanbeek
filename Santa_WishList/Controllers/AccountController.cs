@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Santa_WishList.Models;
+using SantasWishlist_Data.Models;
 
 namespace Santa_WishList.Controllers
 {
@@ -8,13 +9,15 @@ namespace Santa_WishList.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(
            UserManager<IdentityUser> userManager,
-           SignInManager<IdentityUser> signInManager)
+           SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Register()
@@ -23,10 +26,8 @@ namespace Santa_WishList.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> Register(InputModel Input)
+        public async Task<IActionResult> Register(InputModel Input)
         {
-            bool succes = false;
-
             if (ModelState.IsValid)
             {
                 IdentityUser user = new IdentityUser();
@@ -37,16 +38,23 @@ namespace Santa_WishList.Controllers
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    succes = true;
+                    var role = _roleManager.FindByNameAsync("Child").Result;
+                    if(role != null)
+                    {
+                        await _userManager.AddToRoleAsync(user, role.Name);
+                    }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
-            return succes;
+            return View();
         }
+
+        
 
         public IActionResult Login()
         {
