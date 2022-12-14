@@ -9,13 +9,13 @@ namespace Santa_WishList.Models
 		public string Name { get; set; }
 
 		[Required(ErrorMessage = "Je moet je leeftijd invullen!")]
+		[Range(1, 9999, ErrorMessage = "Je kan geen negatieve getallen of 0 invullen voor je leeftijd!")]
 		[RegularExpression("^[0-9]*$", ErrorMessage = "Je kan geen tekens anders dan getallen invullen voor je leeftijd!")]
-		[CustomValidation(typeof(ValidationMethods), "NoNegativesOrZero")]
 		public int Age { get; set; }
 
 		public Niceness Niceness { get; set; }
 
-		[CustomValidation(typeof(ValidationMethods), "GiveNicenessExample")]
+		//[CustomValidation(typeof(ValidationMethods), "GiveNicenessExample")]
 		public string? NicenessExample { get; set; }
 
 		public List<Gift> PossibleGifts { get; set; }
