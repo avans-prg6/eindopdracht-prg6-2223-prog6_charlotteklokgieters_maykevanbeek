@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Santa_WishList.Models;
+using Santa_WishList.Models.Viewmodels;
 using SantasWishlist.Domain;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,7 @@ using static Santa_WishList.Controllers.KidController;
 
 namespace Santa_WishList.Controllers
 {
-
+    [Authorize(Roles = "Child")]
     public class KidController : Controller
 	{
 		readonly GiftRepository giftRepository;

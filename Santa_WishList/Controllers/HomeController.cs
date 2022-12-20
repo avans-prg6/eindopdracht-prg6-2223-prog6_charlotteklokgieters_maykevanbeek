@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Santa_WishList.Models;
+using Santa_WishList.Models.Viewmodels;
 using System.Diagnostics;
 
 namespace Santa_WishList.Controllers

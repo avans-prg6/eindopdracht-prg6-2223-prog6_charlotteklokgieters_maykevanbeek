@@ -1,6 +1,6 @@
 ﻿using SantasWishlist.Domain;
 
-namespace Santa_WishList.Models
+namespace Santa_WishList.Models.Viewmodels
 {
     public class GiftViewModel
     {

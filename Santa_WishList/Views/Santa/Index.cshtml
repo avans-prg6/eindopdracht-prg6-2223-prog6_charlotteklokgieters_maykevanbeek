@@ -1,4 +1,9 @@
-﻿@model SantaViewModel
+﻿@using Santa_WishList.Models.Viewmodels
+@model SantaViewModel
+
+@{
+    ViewData["Title"] = "Create accounts";
+}
 
 <div style="margin-left: 200px">
     <div>
@@ -11,11 +16,10 @@
     @if (ViewBag.Errors != null)
     {
         <br />
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" style="margin-left: 100px; width: 20%;">
+        <div class="" role="alert">
             @foreach (string e in ViewBag.Errors)
             {
-                <strong class="font-bold">Er ging iets mis:</strong>
-                <span class="block sm:inline">@e</span>
+                <span class="">@e</span>
             }
         </div>
     }

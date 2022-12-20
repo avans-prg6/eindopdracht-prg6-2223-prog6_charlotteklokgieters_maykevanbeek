@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Santa_WishList.Models;
 using SantasWishlist_Data.Models;
+using System.Data;
 using System.Security.Claims;
 
 namespace Santa_WishList.Controllers
@@ -22,11 +24,13 @@ namespace Santa_WishList.Controllers
             _roleManager = roleManager;
         }
 
+        [Authorize(Roles = "Santa")]
         public IActionResult Register()
         {
             return View();
         }
 
+        [Authorize(Roles = "Santa")]
         [HttpPost]
         public async Task<IActionResult> Register(AccountInput Input)
         {
