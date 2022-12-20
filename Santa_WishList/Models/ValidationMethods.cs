@@ -1,6 +1,7 @@
 ﻿using Santa_WishList.Controllers;
 using static Santa_WishList.Controllers.KidController;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Santa_WishList.Models
 {
@@ -12,17 +13,20 @@ namespace Santa_WishList.Models
 			bool error = false;
 			List<string> dubbles = new List<string>();
 			List<string> accounts = new List<string>();
-
 			foreach (string kid in kids)
 			{
-				if (accounts.Contains(kid))
+                if (!accounts.Contains(kid))
+				{
+					accounts.Add(kid);
+				}
+				else
 				{
 					error = true;
 					dubbles.Add(kid);
 				}
 			}
 
-			if (error)
+            if (error)
 			{
 				string message = "De volgende namen komen al voor: ";
 				foreach (string name in dubbles)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SantasWishlist_Data.Migrations
 {
-    public partial class test : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -157,12 +157,22 @@ namespace SantasWishlist_Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1", "e6a2c529-5916-4b4e-9784-b8253f3ec94f", "Santa", "SANTA" });
+                values: new object[] { "1", "7a0cfb49-9765-45d0-972e-be7f1fe938a1", "Santa", "SANTA" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2", "83e291af-cedd-4d80-8b09-73943499ca4c", "Child", "CHILD" });
+                values: new object[] { "2", "52101026-1859-4730-83b8-c7c8a1c77c64", "Child", "CHILD" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "4229945a-50e7-4e32-9053-f9633522a6ee", 0, "aa6e1adf-0ff0-4fc8-9f35-b5898b83f6b8", null, false, false, null, null, "SANTA", "AQAAAAEAACcQAAAAEB9sZeZxS/SOIY3PUmnBOF+b59fmprrrMWQYgxxfGVHnqOJNKZbOrGCJt7w3BnaEtA==", null, false, "96bb70ca-a8f4-45e7-9833-1481d57be819", false, "Santa" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "1", "4229945a-50e7-4e32-9053-f9633522a6ee" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

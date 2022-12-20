@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Santa_WishList.Models;
 using SantasWishlist_Data.Models;
+using System.Security.Claims;
 
 namespace Santa_WishList.Controllers
 {
@@ -43,6 +45,10 @@ namespace Santa_WishList.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, role.Name);
                     }
+                    if (Input.IsNice)
+                    {
+                        await _userManager.AddClaimAsync(user, new Claim("BeenNice", "IsNice"));
+                    }
                 }
 
                 foreach (var error in result.Errors)
@@ -64,7 +70,7 @@ namespace Santa_WishList.Controllers
         {
             if(ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, false, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password.ToLower(), false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     return LocalRedirect("/");

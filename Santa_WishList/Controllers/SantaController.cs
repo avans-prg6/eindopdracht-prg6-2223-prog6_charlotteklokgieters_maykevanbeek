@@ -6,7 +6,7 @@ using SantasWishlist_Data;
 using System.Data;
 
 namespace Santa_WishList.Controllers
-{   
+{
     //[Authorize(Roles = "Santa")]
     public class SantaController : Controller
     {
@@ -31,31 +31,32 @@ namespace Santa_WishList.Controllers
             if (ModelState.IsValid)
             {
                 string[] kids = viewmodel.KidsNames.Split(", ");
-                bool error = false;
-                List<string> dubbles = new List<string>();
-                List<string> accounts = new List<string>();
+                //bool error = false;
+                //List<string> dubbles = new List<string>();
+                //List<string> accounts = new List<string>();
 
-                foreach (string kid in kids)
-                {
-                    if (!accounts.Contains(kid) && _context.Users.Where(x => x.UserName == kid).FirstOrDefault() == null)
-                    {
-                        accounts.Add(kid);
-                    }
-                    else
-                    {
-                        error = true;
-                        dubbles.Add(kid);
-                    }
-                }
+                //foreach (string kid in kids)
+                //{
+                //    if (!accounts.Contains(kid) && _context.Users.Where(x => x.UserName == kid).FirstOrDefault() == null)
+                //    {
+                //        accounts.Add(kid);
+                //    }
+                //    else
+                //    {
+                //        error = true;
+                //        dubbles.Add(kid);
+                //    }
+                //}
 
-                if (!error)
-                {
+                //if (!error)
+                //{
+                Console.WriteLine(viewmodel.BeenNice);
                     foreach (string kid in kids)
                     {
                         AccountInput model = new AccountInput();
                         model.Name = kid;
-                        model.Password = viewmodel.Password;
-
+                        model.Password = viewmodel.Password.ToLower();
+                        model.IsNice = viewmodel.BeenNice;
                         await controller.Register(model);
                     }
 
@@ -64,21 +65,21 @@ namespace Santa_WishList.Controllers
                     vm.Password = viewmodel.Password;
 
                     return View("Overview", vm);
-                }
-                else
-                {
-                    List<string> errors = new List<string>();
+                //}
+                //else
+                //{
+                //    List<string> errors = new List<string>();
 
-                    string message = "De volgende namen komen al voor: ";
-                    foreach (string name in dubbles)
-                    {
-                        message += name + " ";
-                    }
-                    errors.Add(message);
-                    ViewBag.Errors = errors;
+                //    string message = "De volgende namen komen al voor: ";
+                //    foreach (string name in dubbles)
+                //    {
+                //        message += name + " ";
+                //    }
+                //    errors.Add(message);
+                //    ViewBag.Errors = errors;
 
-                    return View("Index", viewmodel);
-                }
+                //    return View("Index", viewmodel);
+                //}
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Santa_WishList.Models;
 using SantasWishlist.Domain;
@@ -10,7 +11,9 @@ using static Santa_WishList.Controllers.KidController;
 
 namespace Santa_WishList.Controllers
 {
-	public class KidController : Controller
+
+    [Authorize(Policy = "IsNice")]
+    public class KidController : Controller
 	{
 		readonly GiftRepository giftRepository;
 

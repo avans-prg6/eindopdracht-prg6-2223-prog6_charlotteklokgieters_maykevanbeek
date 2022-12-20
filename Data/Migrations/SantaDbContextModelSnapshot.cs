@@ -52,14 +52,14 @@ namespace SantasWishlist_Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "11cd77c7-ccff-42e8-92e1-39972b96a7d8",
+                            ConcurrencyStamp = "7a0cfb49-9765-45d0-972e-be7f1fe938a1",
                             Name = "Santa",
                             NormalizedName = "SANTA"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "8f4a8874-aa05-4559-a3a8-e89bfd79e4a0",
+                            ConcurrencyStamp = "52101026-1859-4730-83b8-c7c8a1c77c64",
                             Name = "Child",
                             NormalizedName = "CHILD"
                         });
@@ -157,15 +157,15 @@ namespace SantasWishlist_Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ec47a3cc-b70e-479c-87ed-ae1a8a289a91",
+                            Id = "4229945a-50e7-4e32-9053-f9633522a6ee",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c727ea2-6136-47b7-ab7d-0d979053028e",
+                            ConcurrencyStamp = "aa6e1adf-0ff0-4fc8-9f35-b5898b83f6b8",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "SANTA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO0o04fxvtlJ5ZtmJR0Jl3EML/2fKozxFGLD1sdZiR0gFGVqB0qmEDL1MUj7CoYrbw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB9sZeZxS/SOIY3PUmnBOF+b59fmprrrMWQYgxxfGVHnqOJNKZbOrGCJt7w3BnaEtA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2da2631d-82f6-4999-93c1-48cd6d3c56e1",
+                            SecurityStamp = "96bb70ca-a8f4-45e7-9833-1481d57be819",
                             TwoFactorEnabled = false,
                             UserName = "Santa"
                         });
@@ -235,7 +235,7 @@ namespace SantasWishlist_Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "ec47a3cc-b70e-479c-87ed-ae1a8a289a91",
+                            UserId = "4229945a-50e7-4e32-9053-f9633522a6ee",
                             RoleId = "1"
                         });
                 });

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Santa_WishList.Controllers;
 using SantasWishlist.Domain;
@@ -30,12 +31,17 @@ namespace Santa_WishList
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 1;
             }).AddEntityFrameworkStores<SantaDbContext>()
             .AddSignInManager<SignInManager<IdentityUser>>();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsNice", policy => policy.RequireClaim("BeenNice"));
+            });
+
             services.AddScoped<GiftRepository>();
             services.AddScoped<AccountController>();
-
 
             services.AddControllersWithViews();
         }

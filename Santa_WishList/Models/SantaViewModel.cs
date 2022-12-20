@@ -7,6 +7,8 @@ namespace Santa_WishList.Models
     public class SantaViewModel
     {
         [Required(ErrorMessage = "Je moet minimaal een naam invullen!")]
+
+        [CustomValidation(typeof(ValidationMethods), "CheckDubbleNames")]
         public string KidsNames { get; set; }
 		[Required(ErrorMessage = "Je moet een wachtwoord invullen!")]
 		[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Alleen letters AUB, maak het de kindjes niet te moeilijk!")]
