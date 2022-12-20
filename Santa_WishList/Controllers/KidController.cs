@@ -12,7 +12,6 @@ using static Santa_WishList.Controllers.KidController;
 namespace Santa_WishList.Controllers
 {
 
-    [Authorize(Policy = "IsNice")]
     public class KidController : Controller
 	{
 		readonly GiftRepository giftRepository;
@@ -47,8 +46,10 @@ namespace Santa_WishList.Controllers
 			return View("Wishlist", model);
 		}
 
-		public IActionResult ChoosingGifts(Kid model)
+		public IActionResult ChoosingGifts(Kid model, List<GiftViewModel> chosenGifts)
 		{
+			Console.WriteLine(chosenGifts.Count());
+			Console.WriteLine("1:" + chosenGifts.ElementAt(0).IsChecked);
 			if (model.Other != null)
 			{
 				string[] otherGifts = model.Other.Split(", "); //TODO
