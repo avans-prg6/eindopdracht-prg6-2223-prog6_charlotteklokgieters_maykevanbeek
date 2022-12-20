@@ -22,59 +22,67 @@ namespace Santa_WishList.Controllers
 
         public IActionResult Index()
         {
-            return View("Index", "");
+            SantaViewModel model = new SantaViewModel();
+            return View("Index", model);
         }
 
-        public async Task<IActionResult> MakeAccounts(string names, bool beenNice, string password)
+        public async Task<IActionResult> MakeAccounts(SantaViewModel viewmodel)
         {
-            string[] kids = names.Split(", ");
-            bool error = false;
-            List<string> dubbles = new List<string>();
-            List<string> accounts = new List<string>();
-
-            foreach (string kid in kids)
+            if (ModelState.IsValid)
             {
-                if (!accounts.Contains(kid) && _context.Users.Where(x => x.UserName == kid).FirstOrDefault() == null)
-                {
-                    accounts.Add(kid);
-                } 
-                else
-                {
-                    error = true;
-                    dubbles.Add(kid);
-                }
-            }
+                string[] kids = viewmodel.KidsNames.Split(", ");
+                bool error = false;
+                List<string> dubbles = new List<string>();
+                List<string> accounts = new List<string>();
 
-            if (!error)
-            {
                 foreach (string kid in kids)
                 {
-                    InputModel model = new InputModel();
-                    model.Name = kid;
-                    model.Password = password;
-
-                    await controller.Register(model);
+                    if (!accounts.Contains(kid) && _context.Users.Where(x => x.UserName == kid).FirstOrDefault() == null)
+                    {
+                        accounts.Add(kid);
+                    }
+                    else
+                    {
+                        error = true;
+                        dubbles.Add(kid);
+                    }
                 }
 
-                SantaViewModel vm = new SantaViewModel();
-                vm.KidsNames = names;
-                vm.Password = password;
+                if (!error)
+                {
+                    foreach (string kid in kids)
+                    {
+                        AccountInput model = new AccountInput();
+                        model.Name = kid;
+                        model.Password = viewmodel.Password;
 
-                return View("Overview", vm);
+                        await controller.Register(model);
+                    }
+
+                    SantaViewModel vm = new SantaViewModel();
+                    vm.KidsNames = viewmodel.KidsNames;
+                    vm.Password = viewmodel.Password;
+
+                    return View("Overview", vm);
+                }
+                else
+                {
+                    List<string> errors = new List<string>();
+
+                    string message = "De volgende namen komen al voor: ";
+                    foreach (string name in dubbles)
+                    {
+                        message += name + " ";
+                    }
+                    errors.Add(message);
+                    ViewBag.Errors = errors;
+
+                    return View("Index", viewmodel);
+                }
             }
             else
             {
-                List<string> errors = new List<string>();
-                
-                string message = "De volgende namen komen al voor:";
-                foreach(string name in dubbles)
-                {
-                    message += name;
-                }
-                errors.Add(message);
-                ViewBag.Errors = errors;
-
-                return View("Index", names);
+                return View("Index", viewmodel);
             }
         }
     }

@@ -26,7 +26,7 @@ namespace Santa_WishList.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(InputModel Input)
+        public async Task<IActionResult> Register(AccountInput Input)
         {
             if (ModelState.IsValid)
             {
@@ -54,15 +54,13 @@ namespace Santa_WishList.Controllers
             return View();
         }
 
-        
-
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(InputModel Input)
+        public async Task<IActionResult> Login(AccountInput Input)
         {
             if(ModelState.IsValid)
             {

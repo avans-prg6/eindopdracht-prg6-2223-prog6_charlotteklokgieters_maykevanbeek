@@ -2,7 +2,7 @@
 
 namespace Santa_WishList.Models
 {
-    public class InputModel
+    public class AccountInput
     {
         [Required]
         [StringLength(20)]

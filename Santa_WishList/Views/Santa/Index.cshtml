@@ -1,4 +1,4 @@
-﻿@model string
+﻿@model SantaViewModel
 
 <div style="margin-left: 200px">
     <div>
@@ -22,21 +22,21 @@
 
     <div>
         <form asp-controller="Santa" asp-action="MakeAccounts">
-            <label>Alle namen:</label><br>
-            <textarea name="names" id="names" style="width: 600px; height: 200px;" required>@Model</textarea>
+            <textarea asp-for="KidsNames" style="width: 600px; height: 200px;" >@Model.KidsNames</textarea>
+            <span asp-validation-for="KidsNames"></span>
             <p style="color: grey;">Typ alle namen met comma's ertussen</p>
 
             <hr />
 
-            <label>Zijn deze kinderen braaf geweest?</label><br>
+            <label asp-for="BeenNice">Zijn deze kinderen braaf geweest?</label><br>
             <label class="switch">
-                <input type="checkbox" class="" name="beenNice" id="beenNice" />
-                <span class="slider round"></span>
+                <input asp-for="BeenNice" type="checkbox" class="" />
                 Ja deze kinderen zijn braaf!
             </label><br><br />
 
-            <label>Wachtwoord</label><br>
-            <input type="password" class="" name="password" id="password" value="" required>
+            <label asp-for="Password">Wachtwoord</label><br>
+            <input asp-for="Password" type="password" class="" value="" >
+            <span asp-validation-for="Password"></span>
             <p>Maak het wachtwoord voor de kindjes niet moeilijk hè!</p>
 
             <button type="submit" class="" name="save" role="button">Accounts voor kindjes maken!</button>
