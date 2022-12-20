@@ -17,15 +17,9 @@
 
 			@if (User.IsInRole("Child"))
 			{
-					<a asp-controller="Kid" asp-action="Index" class="nav-link text-dark">Verlanglijstje maken</a>
+				<a asp-controller="Kid" asp-action="Index" class="nav-link text-dark">Verlanglijstje maken</a>
 			}
 			</div>
 		</nav>
-	</header>
-}
-else
-{
-	<header>
-		<nav class=""><img src="/images/logo.png" class="w-24"/></nav>
 	</header>
 }
