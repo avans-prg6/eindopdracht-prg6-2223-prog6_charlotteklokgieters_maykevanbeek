@@ -3,7 +3,7 @@
 
 <div class="text-left">
 	<div>
-		<h1 class="display-4">Bedankt @Model.Name!</h1>
+		<h1 class="display-4">Bedankt @Model.Name</h1>
 		<label>Nu is het tijd om je cadeautjes uit te kiezen!</label>
 		<br />
 		<label>De cadeautjes zijn opgedeeld in 4 categoriën en je mag voor elke categorie kiezen welke cadeautjes je wil!</label>
@@ -92,6 +92,7 @@
 			<span asp-validation-for="Other" style="color:red"></span>
 		</div>
 
+		<br />
 		<input type="hidden" class="" asp-for="Name" value="@Model.Name">
 		<input type="hidden" class="" asp-for="PossibleGifts" value="@Model.PossibleGifts">
 		<input type="hidden" class="" asp-for="Age" value="@Model.Age">

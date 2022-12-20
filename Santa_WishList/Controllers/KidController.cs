@@ -27,14 +27,12 @@ namespace Santa_WishList.Controllers
 		{
 			Kid model = new Kid();
 			model.Name = this.User.Identity.Name;
-			model.PossibleGifts = giftRepository.GetPossibleGifts();
-			model.ChosenGifts = new List<Gift>();
 			model.Name = "Charlotte"; //TODO
 
 			return View("Index", model);
 		}
 
-		public IActionResult PersonalInfo(Kid model) //TODO required!!
+		public IActionResult PersonalInfo(Kid model) //TODO
 		{
 			if (!ModelState.IsValid)
 			{
@@ -44,6 +42,8 @@ namespace Santa_WishList.Controllers
 				return Index();
 			}
 
+			model.PossibleGifts = giftRepository.GetPossibleGifts();
+			model.ChosenGifts = new List<Gift>();
 			return View("Wishlist", model);
 		}
 

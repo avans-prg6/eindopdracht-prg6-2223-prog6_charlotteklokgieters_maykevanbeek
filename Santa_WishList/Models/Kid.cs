@@ -18,7 +18,7 @@ namespace Santa_WishList.Models
 
 		public string? NicenessExample { get; set; }
 
-		public List<Gift> PossibleGifts { get; set; }
+		public List<Gift>? PossibleGifts { get; set; }
 
 		public List<Gift>? ChosenGifts { get; set; }
 

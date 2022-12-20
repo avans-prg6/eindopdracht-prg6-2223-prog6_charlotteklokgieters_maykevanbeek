@@ -11,7 +11,7 @@
 
 	<div>
 		<h4>Gekozen cadeautjes: </h4>
-		@foreach (Gift gift in @Model.ChosenGifts)
+		@foreach (Gift gift in @Model.ChosenGifts) @*TODO null*@
 		{
 			<label>@gift.Name, </label>
 		}
