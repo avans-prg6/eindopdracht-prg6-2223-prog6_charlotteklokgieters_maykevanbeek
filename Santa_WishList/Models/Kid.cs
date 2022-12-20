@@ -4,20 +4,18 @@ using static Santa_WishList.Controllers.KidController;
 
 namespace Santa_WishList.Models
 {
-	public class Kid
+	public class Kid : IValidatableObject
 	{
 		[Required]
 		public string Name { get; set; }
 
-		[Required]
-		[Range(0, int.MaxValue)]
-		public int Age { get; set; }
+		[Required(ErrorMessage = "Leeftijd invullen is verplicht!")]
+		[Range(0, int.MaxValue, ErrorMessage = "Leeftijd moet een positief getal zijn!")]
+		public int? Age { get; set; }
 
 		[Required]
-		[CustomValidation(typeof(ValidationMethods), "SetNiceness")]
 		public Niceness Niceness { get; set; }
 
-		[CustomValidation(typeof(ValidationMethods), "GiveNicenessExample")] 
 		public string? NicenessExample { get; set; }
 
 		public List<Gift> PossibleGifts { get; set; }
@@ -25,5 +23,18 @@ namespace Santa_WishList.Models
 		public List<Gift>? ChosenGifts { get; set; }
 
 		public string? Other { get; set; }
+
+		public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+		{
+			if (Niceness != Niceness.Naughty && NicenessExample == null)
+			{
+				{
+					yield return new ValidationResult(
+						errorMessage: "Je moet hier een voorbeeld geven waarom je braaf bent geweest!",
+						memberNames: new[] { "NicenessExample" }
+						);
+				}
+			}
+		}
 	}
 }

@@ -6,22 +6,35 @@ namespace Santa_WishList.Models
 {
 	public class ValidationMethods
 	{
-		private static Niceness Niceness { set; get; }
-
-		public static ValidationResult SetNiceness(Niceness niceness, ValidationContext context)
+		public static ValidationResult CheckDubbleNames(string kidsnames, ValidationContext context)
 		{
-			Niceness = niceness;
-			return ValidationResult.Success;
-		}
+			string[] kids = kidsnames.Split(", ");
+			bool error = false;
+			List<string> dubbles = new List<string>();
+			List<string> accounts = new List<string>();
 
-		public static ValidationResult GiveNicenessExample(string input, ValidationContext context)
-		{
-			if (input == null && Niceness != Niceness.Naughty)
+			foreach (string kid in kids)
 			{
+				if (accounts.Contains(kid))
+				{
+					error = true;
+					dubbles.Add(kid);
+				}
+			}
+
+			if (error)
+			{
+				string message = "De volgende namen komen al voor: ";
+				foreach (string name in dubbles)
+				{
+					message += name + " ";
+				}
+
 				return new ValidationResult(
-					string.Format("Je moet hier een voorbeeld geven waarom je braaf bent geweest!", context.MemberName),
+					string.Format(message, context.MemberName),
 					new List<string>() { context.MemberName });
 			}
+
 			return ValidationResult.Success;
 		}
 	}

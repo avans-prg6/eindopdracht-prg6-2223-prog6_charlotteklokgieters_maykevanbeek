@@ -15,13 +15,14 @@
 				<div class="col">
 					<h4>Iets dat je wil hebben</h4>	
 
-					@foreach(Gift gift in @Model.PossibleGifts)
+					@foreach(Gift gift in Model.PossibleGifts)
 					{
 						@if (gift.Category == GiftCategory.WANT)
 						{
 							<div>
-								<input type="checkbox" id="@gift.Name" name="chosenGifts" value="@gift">
-								<label for="@gift.Name">@gift.Name</label>
+								<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
+								<label asp-for="ChosenGifts">@gift.Name</label>
+								<span asp-validation-for="ChosenGifts" style="color:red"></span>
 							</div>
 						}
 					}
@@ -30,13 +31,14 @@
 				<div class="col">
 					<h4>Iets dat je moet hebben</h4>
 
-					@foreach (Gift gift in @Model.PossibleGifts)
+					@foreach (Gift gift in Model.PossibleGifts)
 					{
 						@if (gift.Category == GiftCategory.NEED)
 						{
 							<div>
-								<input type="checkbox" id="@gift.Name" name="chosenGifts" value="@gift">
-								<label for="@gift.Name">@gift.Name</label>
+								<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
+								<label asp-for="ChosenGifts">@gift.Name</label>
+								<span asp-validation-for="ChosenGifts" style="color:red"></span>
 							</div>
 						}
 					}
@@ -49,13 +51,14 @@
 				<div class="col">
 					<h4>Iets om te dragen</h4>
 
-					@foreach (Gift gift in @Model.PossibleGifts)
+					@foreach (Gift gift in Model.PossibleGifts)
 					{
 						@if (gift.Category == GiftCategory.WEAR)
 						{
 							<div>
-								<input type="checkbox" id="@gift.Name" name="chosenGifts" value="@gift">
-								<label for="@gift.Name">@gift.Name</label>
+								<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
+								<label asp-for="ChosenGifts">@gift.Name</label>
+								<span asp-validation-for="ChosenGifts" style="color:red"></span>
 							</div>
 						}
 					}
@@ -64,13 +67,14 @@
 				<div class="col">
 					<h4>Iets om te lezen</h4>
 
-					@foreach (Gift gift in @Model.PossibleGifts)
+					@foreach (Gift gift in Model.PossibleGifts)
 					{
 						@if (gift.Category == GiftCategory.READ)
 						{
 							<div>
-								<input type="checkbox" id="@gift.Name" name="chosenGifts" value="@gift">
-								<label for="@gift.Name">@gift.Name</label>
+								<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
+								<label asp-for="ChosenGifts">@gift.Name</label>
+								<span asp-validation-for="ChosenGifts" style="color:red"></span>
 							</div>
 						}
 					}
@@ -82,14 +86,17 @@
 
 		<div>
 			<h2>Staat wat je wil er niet tussen?</h2>
-			<input type="text" class="" name="other" id="other">
-			<p>Vul deze vraag alleen in als je zeker weet dat het cadeautje wat je wilt niet in de bovenstaande lijst staat!</p>
+			<label asp-for="Other">Vul deze vraag alleen in als je zeker weet dat het cadeautje wat je wilt niet in de bovenstaande lijst staat!</label>
+			<br />
+			<input type="text" class="" asp-for="Other">
+			<span asp-validation-for="Other" style="color:red"></span>
 		</div>
 
-		<input type="hidden" id="name" name="name" value="@Model.Name">
-		<input type="hidden" id="possibleGifts" name="possibleGifts" value="@Model.PossibleGifts">
-		<input type="hidden" id="age" name="age" value="@Model.Age">
-		<input type="hidden" id="niceness" name="niceness" value="@Model.Niceness">
+		<input type="hidden" class="" asp-for="Name" value="@Model.Name">
+		<input type="hidden" class="" asp-for="PossibleGifts" value="@Model.PossibleGifts">
+		<input type="hidden" class="" asp-for="Age" value="@Model.Age">
+		<input type="hidden" class="" asp-for="Niceness" value="@Model.Niceness">
+		<input type="hidden" class="" asp-for="NicenessExample" value="@Model.NicenessExample">
 		<button type="submit" class="" name="save" role="button">Naar afronden!</button>
 	</form>
 </div>
