@@ -1,4 +1,4 @@
-﻿@model KidViewModel;
+﻿@model Kid;
 @using SantasWishlist.Domain;
 
 <div class="text-center">
@@ -7,15 +7,17 @@
 		<p>Hier is nog een laatste overzicht van je verlanglijstje!</p>
 	</div>
 
-	@*line*@
+	<br />
 
 	<div>
-		<h2 class="display-4">Gekozen cadeautjes: </h2>
-		@foreach (Gift gift in Model.ChosenGifts)
+		<h4>Gekozen cadeautjes: </h4>
+		@foreach (Gift gift in @Model.ChosenGifts)
 		{
-			<p>@gift.Name, </p>
+			<label>@gift.Name, </label>
 		}
 	</div>
+
+	<br />
 
 	<form asp-controller="Kid" asp-action="Confirm">
 		

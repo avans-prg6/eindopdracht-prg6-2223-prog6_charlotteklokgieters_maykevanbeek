@@ -22,14 +22,16 @@ namespace Santa_WishList.Controllers
 		[Route("{controller}")]
 		public IActionResult Index()
 		{
-			KidViewModel model = new KidViewModel();
+			Kid model = new Kid();
 			model.Name = this.User.Identity.Name;
-			//model.Name = "Charlotte";
+			model.PossibleGifts = giftRepository.GetPossibleGifts();
+			model.ChosenGifts = new List<Gift>();
+			model.Name = "Charlotte"; //TODO
 
 			return View("Index", model);
 		}
 
-		public IActionResult PersonalInfo(string name, int age, Niceness niceness, string? example) //TODO required!!
+		public IActionResult PersonalInfo(Kid model) //TODO required!!
 		{
 			if (!ModelState.IsValid)
 			{
@@ -38,55 +40,35 @@ namespace Santa_WishList.Controllers
 				ViewBag.Errors = errors;
 				return Index();
 			}
-			else
-			{
-
-			}
-
-			KidViewModel model = new KidViewModel();
-			model.Name = name;
-			model.PossibleGifts = giftRepository.GetPossibleGifts();
-			model.Age = age;
-			model.Niceness = niceness;
-
-			if (niceness != Niceness.Naughty)
-			{
-				model.NicenessExample = example;
-			}
 
 			return View("Wishlist", model);
 		}
 
-		public IActionResult ChoosingGifts(KidViewModel previous, List<Gift> chosenGifts, string? other)
+		public IActionResult ChoosingGifts(Kid model)
 		{
-			KidViewModel model = previous;
-			model.ChosenGifts = new List<Gift>();
-
-			string[] otherGifts = other.Split(", "); //TODO
-			foreach (string otherGift in otherGifts)
+			if (model.Other != null)
 			{
-				foreach (Gift gift in previous.PossibleGifts)
+				string[] otherGifts = model.Other.Split(", "); //TODO
+				foreach (string otherGift in otherGifts)
 				{
-					if (gift.Name.ToLower() == otherGift.ToLower())
+					foreach (Gift gift in model.PossibleGifts)
 					{
-						//Error, gift is in list
+						if (gift.Name.ToLower() == otherGift.ToLower())
+						{
+							//Error, gift is in list
+						}
 					}
 				}
-			}
 
-			foreach (string otherGift in otherGifts)
-			{
-				Gift newGift = new Gift();
-				newGift.Name = otherGift;
-				//TODO category???
+				foreach (string otherGift in otherGifts)
+				{
+					Gift newGift = new Gift();
+					newGift.Name = otherGift;
+					//TODO category???
 
-				model.ChosenGifts.Add(newGift);
-			}
-
-			foreach (Gift gift in chosenGifts)
-			{
-				model.ChosenGifts.Add(gift);
-			}
+					model.ChosenGifts.Add(newGift);
+				}
+			}			
 
 			return View("Confirmation", model);
 		}
@@ -98,7 +80,7 @@ namespace Santa_WishList.Controllers
 			return View();
 		}
 
-		public IActionResult BackToWishlist(KidViewModel previous) { return View("Wishlist", previous); }
+		public IActionResult BackToWishlist(Kid previous) { return View("Wishlist", previous); }
 
 		//TODO enum verplaatsen
 		public enum Niceness

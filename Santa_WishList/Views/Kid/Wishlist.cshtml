@@ -1,21 +1,19 @@
-﻿@model KidViewModel;
+﻿@model Kid;
 @using SantasWishlist.Domain;
 
 <div class="text-left">
 	<div>
 		<h1 class="display-4">Bedankt @Model.Name!</h1>
-		<p>Nu is het tijd om je cadeautjes uit te kiezen!</p>
+		<label>Nu is het tijd om je cadeautjes uit te kiezen!</label>
 		<br />
-		<p>De cadeautjes zijn opgedeeld in 4 categoriën en je mag voor elke categorie kiezen welke cadeautjes je wil!</p>
+		<label>De cadeautjes zijn opgedeeld in 4 categoriën en je mag voor elke categorie kiezen welke cadeautjes je wil!</label>
 	</div>
-
-	@*line*@
 
 	<form asp-controller="Kid" asp-action="ChoosingGifts">
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<h4>Iets dat je wil hebben</h4>
+					<h4>Iets dat je wil hebben</h4>	
 
 					@foreach(Gift gift in @Model.PossibleGifts)
 					{
@@ -88,7 +86,10 @@
 			<p>Vul deze vraag alleen in als je zeker weet dat het cadeautje wat je wilt niet in de bovenstaande lijst staat!</p>
 		</div>
 
-		<input type="hidden" id="previous" name="previous" value="@Model">
+		<input type="hidden" id="name" name="name" value="@Model.Name">
+		<input type="hidden" id="possibleGifts" name="possibleGifts" value="@Model.PossibleGifts">
+		<input type="hidden" id="age" name="age" value="@Model.Age">
+		<input type="hidden" id="niceness" name="niceness" value="@Model.Niceness">
 		<button type="submit" class="" name="save" role="button">Naar afronden!</button>
 	</form>
 </div>
