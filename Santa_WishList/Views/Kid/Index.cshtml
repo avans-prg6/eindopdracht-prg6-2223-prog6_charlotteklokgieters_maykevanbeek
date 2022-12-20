@@ -1,50 +1,52 @@
-﻿@model KidViewModel;
+﻿@model Kid;
 
-<div class="text-center">
+@{
+    ViewData["Title"] = "Personal info";
+}
+
+<div class="text-left">
 	<div>
 		<h1 class="display-4">Welkom @Model.Name</h1>
-		<p>De <b>Kerstman</b> heeft gevraagd of je je verlanglijstje wil invullen!</p>
-		<br />
-		<p>Voor we cadeautjes uitkiezen, moeten we je eerst wat vragen</p>
+		<label>De <b>Kerstman</b> heeft gevraagd of je je verlanglijstje wil invullen!</label>
+		<label>Voor we cadeautjes uitkiezen, moeten we je eerst wat vragen</label>
 	</div>
 	
-	@*line*@
+	<br />
 
 	<form asp-controller="Kid" asp-action="PersonalInfo">
 		<div>
-			<p>Hoe oud ben je?</p>
-			<input type="text" class="" name="age" id="age">
+			<label asp-for="Age">Hoe oud ben je?</label>
+			<br />
+			<input type="number" class="" asp-for="Age">
+			<span asp-validation-for="Age" style="color:red"></span>		
 		</div>
 
-		@*line*@
+		<br />
+
+		<div class="radiobutton">
+			<label asp-for="Niceness">Ben je braaf geweest?</label>
+			<br />
+			<input type="radio" class="" asp-for="Niceness" value="Very_Nice" checked>Heel braaf!</input> 
+			<br />
+			<input type="radio" class="" asp-for="Niceness" value="A_Little">Een beetje braaf...</input>
+			<br />
+			<input type="radio" class="" asp-for="Niceness" value="Naughty">Ik heb het geprobeerd.</input>
+			<span asp-validation-for="Niceness" style="color:red"></span>
+		</div>
+
+		<br />
 
 		<div>
-			<p>Ben je braaf geweest?</p>
-			<div class="radiobutton">
-			<label>
-					<input type="radio" name="niceness" value="Very_Nice" checked>Heel braaf!>
-			</label>
-			</div>
-			<div class="radiobutton">
-				<label>
-					<input type="radio" name="niceness" value="A_Little">Een beetje braaf...>
-				</label>
-			</div>
-			<div class="radiobutton">
-				<label>
-					<input type="radio" name="niceness" value="Naughty">Ik heb het geprobeerd.>
-				</label>
-			</div>
+			<label asp-for="NicenessExample">Wat heb je dan gedaan dat je zo braaf bent geweest?</label>
+			<br />
+			<input type="text" class="" asp-for="NicenessExample">
+			<span asp-validation-for="NicenessExample" style="color:red"></span>
+			<br />
+			<label>Vul deze vraag alleen in als je braaf bent geweest!</label>			
 		</div>
 
-		@*line*@
-
-		<div>
-			<p>Wat heb je dan gedaan dat je zo braaf bent geweest?</p>
-			<input type="text" class="" name="example" id="example">
-			<p>Vul deze vraag alleen in als je braaf bent geweest!</p>
-		</div>
-
+		<br />
+		<input type="hidden" class="" asp-for="Name" value="@Model.Name">
 		<button type="submit" class="" name="save" role="button">Naar de volgende stap!</button>
 	</form>
 </div>

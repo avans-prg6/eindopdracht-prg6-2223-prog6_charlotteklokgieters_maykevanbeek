@@ -1,45 +1,91 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Santa_WishList.Models;
+using Santa_WishList.Models.Viewmodels;
 using SantasWishlist.Domain;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Xml.Linq;
+using static Santa_WishList.Controllers.KidController;
 
 namespace Santa_WishList.Controllers
 {
-	public class KidController : Controller
+    [Authorize(Roles = "Child")]
+    public class KidController : Controller
 	{
-		readonly IGiftRepository giftRepository;
-		public KidController(IGiftRepository injectedGiftRepository) 
+		readonly GiftRepository giftRepository;
+
+		public KidController(GiftRepository injectedGiftRepository) 
 		{ 
 			giftRepository = injectedGiftRepository;
 		}
 
+		[Route("{controller}")]
 		public IActionResult Index()
 		{
-
-
-
-			//TODO name
-			KidViewModel model = new KidViewModel();
-			model.PossibleGifts = giftRepository.GetPossibleGifts();
+			Kid model = new Kid();
+			model.Name = this.User.Identity.Name;
+			model.Name = "Charlotte"; //TODO
 
 			return View("Index", model);
 		}
 
-		public IActionResult PersonalInfo(int age, Niceness niceness, string example)
+		public IActionResult PersonalInfo(Kid model) //TODO
 		{
-			//TODO name
-			KidViewModel model = new KidViewModel();
-			model.PossibleGifts = giftRepository.GetPossibleGifts();
-			model.Age = age;
-			model.Niceness = niceness;
-
-			if (niceness != Niceness.Naughty)
+			if (!ModelState.IsValid)
 			{
-				model.NicenessExample = example;
+                List<string> errors = ModelState.Values.SelectMany(ms => ms.Errors).Select(err => err.ErrorMessage).ToList();
+
+				ViewBag.Errors = errors;
+				return Index();
 			}
-			
+
+			model.PossibleGifts = giftRepository.GetPossibleGifts();
+			model.ChosenGifts = new List<Gift>();
 			return View("Wishlist", model);
 		}
+
+		public IActionResult ChoosingGifts(Kid model, List<GiftViewModel> chosenGifts)
+		{
+			Console.WriteLine(chosenGifts.Count());
+			Console.WriteLine("1:" + chosenGifts.ElementAt(0).IsChecked);
+			if (model.Other != null)
+			{
+				string[] otherGifts = model.Other.Split(", "); //TODO
+				foreach (string otherGift in otherGifts)
+				{
+					foreach (Gift gift in model.PossibleGifts)
+					{
+						if (gift.Name.ToLower() == otherGift.ToLower())
+						{
+							//Error, gift is in list
+						}
+					}
+				}
+
+				foreach (string otherGift in otherGifts)
+				{
+					Gift newGift = new Gift();
+					newGift.Name = otherGift;
+					//TODO category???
+
+					model.ChosenGifts.Add(newGift);
+				}
+			}			
+
+			return View("Confirmation", model);
+		}
+
+		public IActionResult Confirm()
+		{
+			//TODO send list
+			//TODO log out, can't log in again
+			return View();
+		}
+
+		public IActionResult BackToWishlist(Kid previous) { return View("Wishlist", previous); }
 
 		//TODO enum verplaatsen
 		public enum Niceness

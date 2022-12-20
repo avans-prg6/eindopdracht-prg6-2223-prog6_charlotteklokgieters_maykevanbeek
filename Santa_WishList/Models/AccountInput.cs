@@ -2,7 +2,7 @@
 
 namespace Santa_WishList.Models
 {
-    public class InputModel
+    public class AccountInput
     {
         [Required]
         [StringLength(20)]
@@ -13,5 +13,7 @@ namespace Santa_WishList.Models
         [DataType(DataType.Password)]
         [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
+
+        public bool IsNice { get; set; }
     }
 }

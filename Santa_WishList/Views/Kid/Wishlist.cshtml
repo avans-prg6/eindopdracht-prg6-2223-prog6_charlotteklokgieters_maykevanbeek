@@ -1,47 +1,114 @@
-﻿@model KidViewModel;
+﻿@model Kid;
 @using SantasWishlist.Domain;
 
-<div class="text-center">
+@{
+	ViewData["Title"] = "Wishlist";
+}
+
+<div class="text-left">
 	<div>
-		<h1 class="display-4">Bedankt @Model.Name!</h1>
-		<p>Nu is het tijd om je cadeautjes uit te kiezen!</p>
+		<h1 class="display-4">Bedankt @Model.Name</h1>
+		<label>Nu is het tijd om je cadeautjes uit te kiezen!</label>
 		<br />
-		<p>De cadeautjes zijn opgedeeld in 4 categoriën en je mag voor elke categorie kiezen welke cadeautjes je wil!</p>
+		<label>De cadeautjes zijn opgedeeld in 4 categoriën en je mag voor elke categorie kiezen welke cadeautjes je wil!</label>
 	</div>
 
-	@*line*@
+	<form asp-controller="Kid" asp-action="ChoosingGifts">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h4>Iets dat je wil hebben</h4>	
 
-	<form asp-controller="Kid" asp-action="PersonalInfo">
-		<div>
-			<h2 class="display-4">Iets dat je wil hebben</h2>
+					@foreach(Gift gift in Model.PossibleGifts)
+					{
+						@if (gift.Category == GiftCategory.WANT)
+						{
+							<div>
+								@*<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
+								<label asp-for="ChosenGifts">@gift.Name</label>*@
+								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift">
+							</div>
+						}
+					}
+				</div>
 
-			@Model.PossibleGifts
+				<div class="col">
+					<h4>Iets dat je moet hebben</h4>
 
-			foreach()
-
-			<div>
-				<input type="checkbox" id="lego" name="lego" value="True">
-				<label for="lego">Lego</label>
+					@foreach (Gift gift in Model.PossibleGifts)
+					{
+						@if (gift.Category == GiftCategory.NEED)
+						{
+							<div>
+								@*<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
+								<label asp-for="ChosenGifts">@gift.Name</label>
+								<span asp-validation-for="ChosenGifts" style="color:red"></span>*@
+								<input type="checkbox" class="" name="IsChecked" id="IsChecked">
+								<input type="hidden" class="" name="Gift" id="Gift" value="@gift">
+							</div>
+						}
+					}
+				</div>
 			</div>
 
+			<br />
+
+			<div class="row"> 
+				<div class="col">
+					<h4>Iets om te dragen</h4>
+
+					@foreach (Gift gift in Model.PossibleGifts)
+					{
+						@if (gift.Category == GiftCategory.WEAR)
+						{
+							<div>
+								@*<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
+								<label asp-for="ChosenGifts">@gift.Name</label>
+								<span asp-validation-for="ChosenGifts" style="color:red"></span>*@
+								<input type="checkbox" class="" name="IsChecked" id="IsChecked">
+								<input type="hidden" class="" name="Gift" id="Gift" value="@gift">
+							</div>
+						}
+					}
+				</div>
+
+				<div class="col">
+					<h4>Iets om te lezen</h4>
+
+					@foreach (Gift gift in Model.PossibleGifts)
+					{
+						@if (gift.Category == GiftCategory.READ)
+						{
+							<div>
+							@*	<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
+								<label asp-for="ChosenGifts">@gift.Name</label>
+								<span asp-validation-for="ChosenGifts" style="color:red"></span>*@
+								<input type="checkbox" class="" name="IsChecked" id="IsChecked">
+								<input type="hidden" class="" name="Gift" id="Gift" value="@gift">
+							</div>
+						}
+					}
+				</div>
+			</div>
 		</div>
+
+		<br />
 
 		<div>
-			<h2 class="display-4">Iets dat je moet hebben</h2>
+			<h2>Staat wat je wil er niet tussen?</h2>
+			<label asp-for="Other">Vul deze vraag alleen in als je zeker weet dat het cadeautje wat je wilt niet in de bovenstaande lijst staat!</label>
+			<br />
+			<input type="text" class="" asp-for="Other">
+			<span asp-validation-for="Other" style="color:red"></span>
 		</div>
 
-		<div>
-			<h2 class="display-4">Iets om te dragen</h2>
-		</div>
-
-		<div>
-			<h2 class="display-4">Iets om te lezen</h2>
-		</div>
-
-
-
-		
-
-		<button type="submit" class="" name="save" role="button">Naar de volgende stap!</button>
+		<br />
+		<input type="hidden" class="" asp-for="Name" value="@Model.Name">
+		<input type="hidden" class="" asp-for="PossibleGifts" value="@Model.PossibleGifts">
+		<input type="hidden" class="" asp-for="Age" value="@Model.Age">
+		<input type="hidden" class="" asp-for="Niceness" value="@Model.Niceness">
+		<input type="hidden" class="" asp-for="NicenessExample" value="@Model.NicenessExample">
+		<button type="submit" class="" name="save" role="button">Naar afronden!</button>
 	</form>
 </div>
