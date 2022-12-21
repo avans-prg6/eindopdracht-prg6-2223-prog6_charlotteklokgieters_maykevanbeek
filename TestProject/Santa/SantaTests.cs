@@ -11,26 +11,6 @@ namespace TestProject
     [TestClass]
     public class SantaTests
     {
-        //SantaDbContext _context { get; set; }
-
-        //public SantaTests(SantaDbContext dbcontext)
-        //{
-        //    _context = dbcontext;
-        //}
-        //[TestMethod]
-        //public void CanRegisterAccounts()
-        //{
-        //    //Arrange
-        //    AccountInput input = new AccountInput();
-        //    input.Name = "unittest";
-        //    input.Password = "unittest";
-        //    input.IsNice = true;
-
-        //    //Act
-
-        //    //Assert
-        //}
-
         [TestMethod]
         public void NoDubbleNamesAllowed_Invalid()
         {
