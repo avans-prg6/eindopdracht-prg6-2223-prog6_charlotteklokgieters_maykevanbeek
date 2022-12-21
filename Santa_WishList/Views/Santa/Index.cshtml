@@ -5,7 +5,7 @@
     ViewData["Title"] = "Create accounts";
 }
 
-<div style="margin-left: 200px">
+<div style="margin-left: 200px; width: 800px;">
     <div>
         <h1 class="display-4">Welkom terug Kerstman!</h1>
         <p>Welke kinderen mogen deze keer hun verlanglijstje invullen?</p>
@@ -26,7 +26,7 @@
 
     <div>
         <form asp-controller="Santa" asp-action="MakeAccounts">
-            <textarea asp-for="KidsNames" style="width: 600px; height: 200px;" >@Model.KidsNames</textarea>
+            <textarea asp-for="KidsNames" class="form-control" style="width: 600px; height: 200px;" placeholder="kinder namen">@Model.KidsNames</textarea>
             <span asp-validation-for="KidsNames"></span>
             <p style="color: grey;">Typ alle namen met comma's ertussen</p>
 
@@ -39,11 +39,11 @@
             </label><br><br />
 
             <label asp-for="Password">Wachtwoord</label><br>
-            <input asp-for="Password" type="password" class="" value="" >
+            <input asp-for="Password" type="password" class="form-control" placeholder="wachtwoord" style="width: 200px;" value="">
             <span asp-validation-for="Password"></span>
-            <p>Maak het wachtwoord voor de kindjes niet moeilijk hè!</p>
+            <p style="color: grey;">Maak het wachtwoord voor de kindjes niet moeilijk hè!</p>
 
-            <button type="submit" class="" name="save" role="button">Accounts voor kindjes maken!</button>
+            <button type="submit" class="btn btn-dark" name="save" role="button">Accounts voor kindjes maken!</button>
         </form>
     </div>
 </div>
