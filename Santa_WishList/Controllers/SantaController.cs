@@ -20,6 +20,11 @@ namespace Santa_WishList.Controllers
             this.controller = controller;
         }
 
+        public SantaController()
+        {
+
+        }
+
         public IActionResult Index()
         {
             SantaViewModel model = new SantaViewModel();
@@ -30,7 +35,8 @@ namespace Santa_WishList.Controllers
         {
             if (ModelState.IsValid)
             {
-                string[] kids = viewmodel.KidsNames.Split(", ");
+                string[] kids = SplitNames(viewmodel.KidsNames);
+
                 bool error = false;
                 List<string> dubbles = new List<string>();
 
@@ -80,6 +86,27 @@ namespace Santa_WishList.Controllers
             {
                 return View("Index", viewmodel);
             }
+        }
+
+        public string[] SplitNames(string names)
+        {
+            string[] kids;
+
+            if (names.Contains(", "))
+            {
+                kids = names.Split(", ");
+            }
+            else if (names.Contains(","))
+            {
+                kids = names.Split(",");
+            }
+            else
+            {
+                kids = new string[1];
+                kids[0] = names;
+            }
+
+            return kids;
         }
     }
 }

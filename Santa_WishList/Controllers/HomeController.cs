@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Santa_WishList.Models;
 using Santa_WishList.Models.Viewmodels;
@@ -17,13 +18,13 @@ namespace Santa_WishList.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            if (User.IsInRole("Child"))
+                return RedirectToAction("Index", "Kid");
 
-        [Authorize]
-        public IActionResult Privacy()
-        {
-            return View();
+            if (User.IsInRole("Santa"))
+                return RedirectToAction("Index", "Santa");
+
+            return RedirectToAction("Login", "Account");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
