@@ -93,7 +93,14 @@ namespace Santa_WishList.Controllers
         {
             _signInManager.SignOutAsync();
             return LocalRedirect("/Account/Login");
+        }
 
+        public async Task<IActionResult> AddWishListClaim(string name)
+        {
+            IdentityUser user = await _userManager.FindByNameAsync(name);
+
+            await _userManager.AddClaimAsync(user, new Claim("WishListDone", "WishListFilledIn"));
+            return LocalRedirect("/Account/Login");
         }
     }
 }

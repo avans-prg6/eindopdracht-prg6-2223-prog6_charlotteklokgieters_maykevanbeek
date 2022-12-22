@@ -39,6 +39,7 @@ namespace Santa_WishList
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("IsNice", policy => policy.RequireClaim("BeenNice"));
+                options.AddPolicy("WishListDone", policy => policy.RequireClaim("WishListFilledIn"));
             });
 
             services.AddScoped<GiftRepository>();

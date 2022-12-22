@@ -86,12 +86,13 @@
 				<br />
 			</div>
 		</div>
+		<br />
 
 		<div>
 			<h2>Staat wat je wil er niet tussen?</h2>
 			<label asp-for="Other">Vul deze vraag alleen in als je zeker weet dat het cadeautje wat je wilt niet in de bovenstaande lijst staat!</label>
 			<br />
-			<input type="text" class="" asp-for="Other">
+			<input type="text" class="form-control" asp-for="Other" style="width: 200px;" placeholder="naam van cadeautje">
 
 			@if(ViewBag.Errors != null)
 			{
@@ -111,6 +112,6 @@
 		<input type="hidden" class="" asp-for="Age" value="@Model.Age">
 		<input type="hidden" class="" asp-for="Niceness" value="@Model.Niceness">
 		<input type="hidden" class="" asp-for="NicenessExample" value="@Model.NicenessExample">
-		<button type="submit" class="" name="save" role="button">Naar afronden!</button>
+		<button type="submit" class="btn btn-dark" name="save" role="button">Naar afronden!</button>
 	</form>
 </div>
