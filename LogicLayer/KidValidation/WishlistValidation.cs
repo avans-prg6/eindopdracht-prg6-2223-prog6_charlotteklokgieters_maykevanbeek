@@ -47,10 +47,13 @@ namespace LogicLayer.KidValidation
 		//Validation rule 2: only 1 gift per gift type
 		public void OneGiftPerType(List<string> chosenGifts)
 		{
-			if ((chosenGifts.Contains("Lego") && chosenGifts.Contains("K'nex")) || ())
+			if ((chosenGifts.Contains("Lego") && chosenGifts.Contains("K'nex")) ||
+				(chosenGifts.Contains("lego voor dummies") && chosenGifts.Contains("K'nex voor dummies")))
 			{
 				//TODO error, can only have 1 gift per gift type
 			}
 		}
+
+		//Validation rule 3: 
 	}
 }
