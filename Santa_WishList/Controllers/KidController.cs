@@ -12,7 +12,7 @@ using static Santa_WishList.Controllers.KidController;
 
 namespace Santa_WishList.Controllers
 {
-	//[Authorize(Roles = "Child")] TODO
+	[Authorize(Roles = "Child")]
 	public class KidController : Controller
 	{
 		readonly GiftRepository giftRepository;
@@ -27,7 +27,6 @@ namespace Santa_WishList.Controllers
 		{
 			Kid model = new Kid();
 			model.Name = this.User.Identity.Name;
-			model.Name = "Charlotte"; //TODO
 
 			return View("Index", model);
 		}
@@ -132,11 +131,18 @@ namespace Santa_WishList.Controllers
 					if (chosenGift == gift.Name)
 					{
 						list.Wanted.Add(gift);
+					} 
+					else
+					{
+						Gift other = new Gift();
+						other.Name = chosenGift;
+						list.Wanted.Add(other);
 					}
 				}
 			}
 
 			giftRepository.SendWishList(list);
+
 			//TODO log out, can't log in again
 			return View();
 		}

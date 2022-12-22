@@ -17,7 +17,8 @@ namespace Santa_WishList.Models
         [Required]
         public Niceness Niceness { get; set; }
 
-        public string? NicenessExample { get; set; }
+		[MinLength(10, ErrorMessage = "Je moet een wat langere reden geven!")]
+		public string? NicenessExample { get; set; }
 
         public List<Gift>? PossibleGifts { get; set; }
 
