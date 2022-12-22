@@ -5,6 +5,7 @@ using Santa_WishList.Controllers;
 using SantasWishlist.Domain;
 using SantasWishlist_Data;
 using SantasWishlist_Data.Models;
+using SantasWishlist_Data.Repositories;
 
 namespace Santa_WishList
 {
@@ -42,6 +43,7 @@ namespace Santa_WishList
 
             services.AddScoped<GiftRepository>();
             services.AddScoped<AccountController>();
+            services.AddScoped<ISantaRepository, SantaRepositorySQL>();
 
             services.AddControllersWithViews();
         }
