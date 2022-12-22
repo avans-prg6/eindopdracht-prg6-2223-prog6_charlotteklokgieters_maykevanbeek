@@ -16,7 +16,7 @@
 		<div>
 			<label asp-for="Age">Hoe oud ben je?</label>
 			<br />
-			<input type="number" class="" asp-for="Age">
+			<input type="number" class="form-control" asp-for="Age" style="width: 200px;" placeholder="leeftijd">
 			<span asp-validation-for="Age" style="color:red"></span>		
 		</div>
 
@@ -24,11 +24,11 @@
 		<div class="radiobutton">
 			<label asp-for="Niceness">Ben je braaf geweest?</label>
 			<br />
-			<input type="radio" class="" asp-for="Niceness" value="Very_Nice" checked>Heel braaf!</input> 
+			<input type="radio" class="form-check-input" asp-for="Niceness" value="Very_Nice" checked>Heel braaf!</input>
 			<br />
-			<input type="radio" class="" asp-for="Niceness" value="A_Little">Een beetje braaf...</input>
+			<input type="radio" class="form-check-input" asp-for="Niceness" value="A_Little">Een beetje braaf...</input>
 			<br />
-			<input type="radio" class="" asp-for="Niceness" value="Naughty">Ik heb het geprobeerd.</input>
+			<input type="radio" class="form-check-input" asp-for="Niceness" value="Naughty">Ik heb het geprobeerd.</input>
 			<span asp-validation-for="Niceness" style="color:red"></span>
 		</div>
 
@@ -36,14 +36,14 @@
 		<div>
 			<label asp-for="NicenessExample">Wat heb je dan gedaan dat je zo braaf bent geweest?</label>
 			<br />
-			<input type="text" class="" asp-for="NicenessExample">
-			<span asp-validation-for="NicenessExample" style="color:red"></span>
+			<input type="text" class="form-control" asp-for="NicenessExample" style="width: 300px;" placeholder="geef een voorbeeld">
+			<label style="color: grey;">Vul deze vraag alleen in als je braaf bent geweest!</label>
 			<br />
-			<label>Vul deze vraag alleen in als je braaf bent geweest!</label>			
+			<span asp-validation-for="NicenessExample" style="color:red"></span>
 		</div>
 
 		<br />
 		<input type="hidden" class="" asp-for="Name" value="@Model.Name">
-		<button type="submit" class="" name="save" role="button">Naar de volgende stap!</button>
+		<button type="submit" class="btn btn-dark" name="save" role="button">Naar de volgende stap!</button>
 	</form>
 </div>

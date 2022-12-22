@@ -22,5 +22,13 @@
 
             return list;
         }
+
+        public static List<string> AddError(string message)
+        {
+            List<string> errors = new List<string>();
+            errors.Add(message);
+
+            return errors;
+        }
     }
 }

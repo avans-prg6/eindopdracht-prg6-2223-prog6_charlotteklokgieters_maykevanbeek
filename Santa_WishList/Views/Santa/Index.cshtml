@@ -19,7 +19,7 @@
         <div class="" role="alert">
             @foreach (string e in ViewBag.Errors)
             {
-                <span class="">@e</span>
+                <span class="" style="color:red">@e</span>
             }
         </div>
     }
@@ -27,7 +27,7 @@
     <div>
         <form asp-controller="Santa" asp-action="MakeAccounts">
             <textarea asp-for="KidsNames" class="form-control" style="width: 600px; height: 200px;" placeholder="kinder namen">@Model.KidsNames</textarea>
-            <span asp-validation-for="KidsNames"></span>
+            <span asp-validation-for="KidsNames" style="color:red"></span>
             <p style="color: grey;">Typ alle namen met comma's ertussen</p>
 
             <hr />
@@ -40,7 +40,7 @@
 
             <label asp-for="Password">Wachtwoord</label><br>
             <input asp-for="Password" type="password" class="form-control" placeholder="wachtwoord" style="width: 200px;" value="">
-            <span asp-validation-for="Password"></span>
+            <span asp-validation-for="Password" style="color:red"></span>
             <p style="color: grey;">Maak het wachtwoord voor de kindjes niet moeilijk hè!</p>
 
             <button type="submit" class="btn btn-dark" name="save" role="button">Accounts voor kindjes maken!</button>

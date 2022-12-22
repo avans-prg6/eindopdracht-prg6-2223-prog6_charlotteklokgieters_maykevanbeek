@@ -5,7 +5,18 @@
 }
 
 <h1>Login</h1>
- 
+
+@if (ViewBag.Errors != null)
+{
+    <br />
+    <div class="" role="alert">
+        @foreach (string e in ViewBag.Errors)
+        {
+            <span class="" style="color:red">@e</span>
+        }
+    </div>
+}
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Login" asp-controller="Account" method="post">

@@ -11,12 +11,14 @@ namespace Santa_WishList.Controllers
 	[Authorize(Roles = "Child")]
 	public class KidController : Controller
 	{
-		readonly GiftRepository giftRepository;
+		private readonly GiftRepository giftRepository;
+		private readonly AccountController _accountController;
 
-		public KidController(GiftRepository injectedGiftRepository)
+		public KidController(GiftRepository injectedGiftRepository, AccountController accountController)
 		{
 			giftRepository = injectedGiftRepository;
-		}
+            _accountController = accountController;
+        }
 
 		[Route("{controller}")]
 		public IActionResult Index()
@@ -99,7 +101,7 @@ namespace Santa_WishList.Controllers
 			return View("Confirmation", model);
 		}
 
-		public IActionResult Confirm(Kid model)
+		public async Task<IActionResult> Confirm(Kid model)
 		{
 			model.PossibleGifts = giftRepository.GetPossibleGifts();
 
@@ -126,9 +128,9 @@ namespace Santa_WishList.Controllers
 
 			giftRepository.SendWishList(list);
 
-			//TODO log out, can't log in again
-			return View();
-		}
+			await _accountController.AddWishListClaim(this.User.Identity.Name);
+			return await _accountController.Logout();
+        }
 
 		public IActionResult BackToWishlist(Kid model)
 		{
