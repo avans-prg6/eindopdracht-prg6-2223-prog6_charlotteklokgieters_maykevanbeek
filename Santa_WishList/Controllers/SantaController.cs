@@ -1,4 +1,5 @@
 ﻿using LogicLayer.General;
+using LogicLayer.Santa;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,15 @@ namespace Santa_WishList.Controllers
             if (ModelState.IsValid)
             {
                 string[] kids = General.SplitString(viewmodel.KidsNames);
-                List<string> dubbles = CheckDubbles(kids);
+
+                List<string> dubbles = new List<string>();
+                foreach (string kid in kids)
+                {
+                    if(_repository.NameExists(kid))
+                    {
+                        dubbles.Add(kid);
+                    }
+                }
 
                 if (!dubbles.Any())
                 {
@@ -54,7 +63,7 @@ namespace Santa_WishList.Controllers
                 }
                 else
                 {
-                    AddError("De volgende namen komen al voor in de database: ", dubbles);
+                    ViewBag.Errors = Santa.AddErrorDubbles("De volgende namen komen al voor in de database: ", dubbles); 
                     return View("Index", viewmodel);
                 }
             }
@@ -64,31 +73,5 @@ namespace Santa_WishList.Controllers
             }
         }
 
-        public List<string> CheckDubbles(string[] names)
-        {
-            List<string> dubbles = new List<string>();
-
-            foreach (string name in names)
-            {
-                if (_repository.NameExists(name))
-                {
-                    dubbles.Add(name);
-                }
-            }
-
-            return dubbles;
-        }
-
-        public void AddError(string message, List<string> dubbles)
-        {
-            List<string> errors = new List<string>();
-
-            foreach (string name in dubbles)
-            {
-                message += name + " ";
-            }
-            errors.Add(message);
-            ViewBag.Errors = errors;
-        }
     }
 }

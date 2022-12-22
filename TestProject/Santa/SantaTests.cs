@@ -1,10 +1,13 @@
 using LogicLayer.General;
+using LogicLayer.Santa;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Moq;
 using Santa_WishList.Controllers;
 using Santa_WishList.Models;
 using Santa_WishList.Models.Viewmodels;
 using SantasWishlist_Data;
+using SantasWishlist_Data.Repositories;
 using System.ComponentModel.DataAnnotations;
 
 namespace TestProject
@@ -75,6 +78,21 @@ namespace TestProject
 
             //Assert
             Assert.IsTrue(list.Length == 1);
+        }
+
+        [TestMethod]
+        public void AddErrorsWithMessage()
+        {
+            //Arrange
+            string message = "unittest";
+            List<string> dubbles = new List<string>();
+            dubbles.Add("check");
+
+            //Act
+            List<string> result = Santa.AddErrorDubbles(message, dubbles);
+
+            //Assert
+            Assert.IsTrue(result.Count == 1);
         }
     }
 }
