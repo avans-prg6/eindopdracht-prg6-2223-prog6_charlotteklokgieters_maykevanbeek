@@ -1,3 +1,4 @@
+using LogicLayer.General;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Santa_WishList.Controllers;
@@ -41,11 +42,10 @@ namespace TestProject
         public void SplittingNames_OneName_ValidOption1()
         {
             ////Arrange
-            SantaController controller = new SantaController();
             string names = "hi, hi";
 
             //Act
-            string[] list = controller.SplitNames(names);
+            string[] list = General.SplitString(names);
 
             //Assert
             Assert.IsTrue(list.Length == 2);
@@ -55,11 +55,10 @@ namespace TestProject
         public void SplittingNames_OneName_ValidOption2()
         {
             //Arrange
-            SantaController controller = new SantaController();
             string names = "hi,hi";
 
             //Act
-            string[] list = controller.SplitNames(names);
+            string[] list = General.SplitString(names);
 
             //Assert
             Assert.IsTrue(list.Length == 2);
@@ -69,11 +68,10 @@ namespace TestProject
         public void SplittingNames_OneName()
         {
             //Arrange
-            SantaController controller = new SantaController();
             string names = "hi";
 
             //Act
-            string[] list = controller.SplitNames(names);
+            string[] list = General.SplitString(names);
 
             //Assert
             Assert.IsTrue(list.Length == 1);

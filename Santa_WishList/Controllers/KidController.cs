@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LogicLayer.General;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Santa_WishList.Models;
@@ -61,20 +62,7 @@ namespace Santa_WishList.Controllers
 
 			if (model.Other != null)
 			{
-				string[] otherGifts;
-				if (model.Other.Contains(", "))
-				{
-					 otherGifts = model.Other.Split(", ");
-				}
-				else if (model.Other.Contains(","))
-				{
-					otherGifts = model.Other.Split(",");
-				}
-				else
-				{
-					otherGifts = new string[1];
-					otherGifts[0] = model.Other;
-				}
+				string[] otherGifts = General.SplitString(model.Other);
 				
 				foreach (string otherGift in otherGifts)
 				{

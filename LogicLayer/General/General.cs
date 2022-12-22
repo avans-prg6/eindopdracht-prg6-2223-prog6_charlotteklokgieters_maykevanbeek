@@ -2,25 +2,25 @@
 {
     public class General
     {
-        public string[] SplitNames(string names)
+        public static string[] SplitString(string longstring)
         {
-            string[] kids;
+            string[] list;
 
-            if (names.Contains(", "))
+            if (longstring.Contains(", "))
             {
-                kids = names.Split(", ");
+                list = longstring.Split(", ");
             }
-            else if (names.Contains(","))
+            else if (longstring.Contains(","))
             {
-                kids = names.Split(",");
+                list = longstring.Split(",");
             }
             else
             {
-                kids = new string[1];
-                kids[0] = names;
+                list = new string[1];
+                list[0] = longstring;
             }
 
-            return kids;
+            return list;
         }
     }
 }

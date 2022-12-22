@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LogicLayer.General;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Santa_WishList.Models;
@@ -35,7 +36,7 @@ namespace Santa_WishList.Controllers
         {
             if (ModelState.IsValid)
             {
-                string[] kids = SplitNames(viewmodel.KidsNames);
+                string[] kids = General.SplitString(viewmodel.KidsNames);
 
                 bool error = false;
                 List<string> dubbles = new List<string>();
@@ -88,25 +89,25 @@ namespace Santa_WishList.Controllers
             }
         }
 
-        public string[] SplitNames(string names)
-        {
-            string[] kids;
+        //public string[] SplitNames(string names)
+        //{
+        //    string[] kids;
 
-            if (names.Contains(", "))
-            {
-                kids = names.Split(", ");
-            }
-            else if (names.Contains(","))
-            {
-                kids = names.Split(",");
-            }
-            else
-            {
-                kids = new string[1];
-                kids[0] = names;
-            }
+        //    if (names.Contains(", "))
+        //    {
+        //        kids = names.Split(", ");
+        //    }
+        //    else if (names.Contains(","))
+        //    {
+        //        kids = names.Split(",");
+        //    }
+        //    else
+        //    {
+        //        kids = new string[1];
+        //        kids[0] = names;
+        //    }
 
-            return kids;
-        }
+        //    return kids;
+        //}
     }
 }
