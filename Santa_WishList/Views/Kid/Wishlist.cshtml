@@ -2,32 +2,32 @@
 @using SantasWishlist.Domain;
 
 @{
-	ViewData["Title"] = "Wishlist";
+	ViewData["Title"] = "Verlanglijst";
 }
 
-<div class="text-left">
+<div class="text-left">	
 	<div>
 		<h1 class="display-4">Bedankt @Model.Name</h1>
 		<label>Nu is het tijd om je cadeautjes uit te kiezen!</label>
 		<br />
 		<label>De cadeautjes zijn opgedeeld in 4 categoriën en je mag voor elke categorie kiezen welke cadeautjes je wil!</label>
+		<br />
 	</div>
 
 	<form asp-controller="Kid" asp-action="ChoosingGifts">
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<h4>Iets dat je wil hebben</h4>	
+					<h4>Iets dat je wil hebben</h4>
 
-					@foreach(Gift gift in Model.PossibleGifts)
+					@foreach (Gift gift in Model.PossibleGifts)
 					{
 						@if (gift.Category == GiftCategory.WANT)
 						{
 							<div>
-								@*<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
-								<label asp-for="ChosenGifts">@gift.Name</label>*@
 								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
-								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift.Name">
+								<label>@gift.Name</label>
 							</div>
 						}
 					}
@@ -41,20 +41,17 @@
 						@if (gift.Category == GiftCategory.NEED)
 						{
 							<div>
-								@*<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
-								<label asp-for="ChosenGifts">@gift.Name</label>
-								<span asp-validation-for="ChosenGifts" style="color:red"></span>*@
-								<input type="checkbox" class="" name="IsChecked" id="IsChecked">
-								<input type="hidden" class="" name="Gift" id="Gift" value="@gift">
+								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift.Name">
+								<label>@gift.Name</label>
 							</div>
 						}
 					}
 				</div>
 			</div>
-
 			<br />
 
-			<div class="row"> 
+			<div class="row">
 				<div class="col">
 					<h4>Iets om te dragen</h4>
 
@@ -63,11 +60,9 @@
 						@if (gift.Category == GiftCategory.WEAR)
 						{
 							<div>
-								@*<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
-								<label asp-for="ChosenGifts">@gift.Name</label>
-								<span asp-validation-for="ChosenGifts" style="color:red"></span>*@
-								<input type="checkbox" class="" name="IsChecked" id="IsChecked">
-								<input type="hidden" class="" name="Gift" id="Gift" value="@gift">
+								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift.Name">
+								<label>@gift.Name</label>
 							</div>
 						}
 					}
@@ -81,26 +76,33 @@
 						@if (gift.Category == GiftCategory.READ)
 						{
 							<div>
-							@*	<input type="checkbox" class="" asp-for="ChosenGifts" value="@gift">
-								<label asp-for="ChosenGifts">@gift.Name</label>
-								<span asp-validation-for="ChosenGifts" style="color:red"></span>*@
-								<input type="checkbox" class="" name="IsChecked" id="IsChecked">
-								<input type="hidden" class="" name="Gift" id="Gift" value="@gift">
+								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift.Name">
+								<label>@gift.Name</label>
 							</div>
 						}
 					}
 				</div>
+				<br />
 			</div>
 		</div>
-
-		<br />
 
 		<div>
 			<h2>Staat wat je wil er niet tussen?</h2>
 			<label asp-for="Other">Vul deze vraag alleen in als je zeker weet dat het cadeautje wat je wilt niet in de bovenstaande lijst staat!</label>
 			<br />
 			<input type="text" class="" asp-for="Other">
-			<span asp-validation-for="Other" style="color:red"></span>
+
+			@if(ViewBag.Errors != null)
+			{
+				for(int i = 0; i < ViewBag.Errors.Count; i++)
+				{
+					if (ViewBag.Errors[i] == "Een cadeautje dat je hebt gekozen staat al tussen de cadeautjes hierboven waar je uit kan kiezen!")
+					{
+						<span style="color:red" class="block sm:inline">@ViewBag.Errors[i]</span>
+					}
+				}
+			}
 		</div>
 
 		<br />

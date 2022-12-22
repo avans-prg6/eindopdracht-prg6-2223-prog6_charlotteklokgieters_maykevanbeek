@@ -2,36 +2,44 @@
 @using SantasWishlist.Domain;
 
 @{
-    ViewData["Title"] = "Confirmation";
+    ViewData["Title"] = "Bevestiging";
 }
 
 <div class="text-center">
 	<div>
 		<h1 class="display-4">Bedankt @Model.Name!</h1>
 		<p>Hier is nog een laatste overzicht van je verlanglijstje!</p>
+		<br />
 	</div>
-
-	<br />
 
 	<div>
 		<h4>Gekozen cadeautjes: </h4>
-		@foreach (Gift gift in @Model.ChosenGifts) @*TODO null*@
+
+		@if (Model.ChosenGifts != null && Model.ChosenGifts.Any())
 		{
-			<label>@gift.Name, </label>
+			@foreach (string gift in Model.ChosenGifts) 
+			{
+				<label>@gift, </label> @*TODO*@
+			}
 		}
 	</div>
 
 	<br />
-
 	<form asp-controller="Kid" asp-action="Confirm">
-		
+		<input type="hidden" class="" asp-for="Name" value="@Model.Name">
+		<input type="hidden" class="" asp-for="Age" value="@Model.Age">
+		<input type="hidden" class="" asp-for="Niceness" value="@Model.Niceness">
+		<input type="hidden" class="" asp-for="NicenessExample" value="@Model.NicenessExample">
+		<input type="hidden" class="" asp-for="ChosenGifts" value="@Model.ChosenGifts">
 		<button type="submit" class="" name="save" role="button">Ja, dit zijn de cadeautjes die ik wil!</button>
 	</form>
 
 	<br />
-
 	<form asp-controller="Kid" asp-action="BackToWishlist">
-		<input type="hidden" id="previous" name="previous" value="@Model">
+		<input type="hidden" class="" asp-for="Name" value="@Model.Name">
+		<input type="hidden" class="" asp-for="Age" value="@Model.Age">
+		<input type="hidden" class="" asp-for="Niceness" value="@Model.Niceness">
+		<input type="hidden" class="" asp-for="NicenessExample" value="@Model.NicenessExample">
 		<button type="submit" class="" name="save" role="button">Dit klopt niet, ik wil terug naar de vorige stap!</button>
 	</form>
 </div>
