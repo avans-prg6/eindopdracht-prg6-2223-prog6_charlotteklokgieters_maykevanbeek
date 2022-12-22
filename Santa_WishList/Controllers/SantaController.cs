@@ -21,11 +21,6 @@ namespace Santa_WishList.Controllers
             this.controller = controller;
         }
 
-        public SantaController()
-        {
-
-        }
-
         public IActionResult Index()
         {
             SantaViewModel model = new SantaViewModel();

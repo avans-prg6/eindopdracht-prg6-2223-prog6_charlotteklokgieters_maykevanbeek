@@ -39,26 +39,26 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void SplittingNames_OneName_ValidOption1()
+        public void SplittingNames_TwoNames_WithSpace()
         {
             ////Arrange
-            string names = "hi, hi";
+            string longstring = "hi, hi";
 
             //Act
-            string[] list = General.SplitString(names);
+            string[] list = General.SplitString(longstring);
 
             //Assert
             Assert.IsTrue(list.Length == 2);
         }
 
         [TestMethod]
-        public void SplittingNames_OneName_ValidOption2()
+        public void SplittingNames_TwoNames_WithoutSpace()
         {
             //Arrange
-            string names = "hi,hi";
+            string longstring = "hi,hi";
 
             //Act
-            string[] list = General.SplitString(names);
+            string[] list = General.SplitString(longstring);
 
             //Assert
             Assert.IsTrue(list.Length == 2);
@@ -68,10 +68,10 @@ namespace TestProject
         public void SplittingNames_OneName()
         {
             //Arrange
-            string names = "hi";
+            string longstring = "hi";
 
             //Act
-            string[] list = General.SplitString(names);
+            string[] list = General.SplitString(longstring);
 
             //Assert
             Assert.IsTrue(list.Length == 1);
