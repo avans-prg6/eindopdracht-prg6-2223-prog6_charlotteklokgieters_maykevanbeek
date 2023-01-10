@@ -8,10 +8,10 @@ namespace LogicLayer.KidValidation
 {
 	public class WishlistValidation
 	{
-		readonly GiftRepository giftRepository;
+		readonly IGiftRepository giftRepository;
         private List<string> _errorMessages;
 
-        public WishlistValidation(GiftRepository injectedGiftRepository) 
+        public WishlistValidation(IGiftRepository injectedGiftRepository) 
 		{
 			giftRepository = injectedGiftRepository;
 		}
