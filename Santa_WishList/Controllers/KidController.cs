@@ -14,10 +14,10 @@ namespace Santa_WishList.Controllers
 		private readonly IGiftRepository giftRepository;
 		private readonly AccountController _accountController;
 
-		public KidController(IGiftRepository injectedGiftRepository, AccountController accountController)
+		public KidController(GiftRepository injectedGiftRepository, AccountController injectedAccountController)
 		{
 			giftRepository = injectedGiftRepository;
-            _accountController = accountController;
+            _accountController = injectedAccountController;
         }
 
 		[Route("{controller}")]
@@ -57,36 +57,80 @@ namespace Santa_WishList.Controllers
 				return View("Wishlist", model);
 			}
 
+			//TODO
+			//if (model.Other != null)
+			//{
+			//	string[] otherGifts = General.SplitString(model.Other);
+
+			//	foreach (string otherGift in otherGifts)
+			//	{
+			//		foreach (Gift gift in model.PossibleGifts)
+			//		{
+			//			if (gift.Name.ToLower() == otherGift.ToLower())
+			//			{
+			//				ValidationResult result = new ValidationResult(
+			//					errorMessage: "Een cadeautje dat je hebt gekozen staat al tussen de cadeautjes hierboven waar je uit kan kiezen!",
+			//					memberNames: new[] { "Other" }
+			//					);
+
+			//				List<string> errors = ModelState.Values.SelectMany(ms => ms.Errors).Select(err => err.ErrorMessage).ToList();
+			//				errors.Add(result.ErrorMessage);
+
+			//				ViewBag.Errors = errors;
+			//				return View("Wishlist", model);
+			//			}
+			//			else
+			//			{
+			//				model.ChosenGifts.Add(otherGift);
+			//				break;
+			//			}
+			//		}
+			//	}
+			//}
+
 			if (model.Other != null)
 			{
 				string[] otherGifts = General.SplitString(model.Other);
-				
+				//GiftAvailibilityInList(otherGifts);
 				foreach (string otherGift in otherGifts)
 				{
-					foreach (Gift gift in model.PossibleGifts)
-					{
-						if (gift.Name.ToLower() == otherGift.ToLower())
-						{
-							ValidationResult result = new ValidationResult(
-								errorMessage: "Een cadeautje dat je hebt gekozen staat al tussen de cadeautjes hierboven waar je uit kan kiezen!",
-								memberNames: new[] { "Other" }
-								);
+                    model.ChosenGifts.Add(otherGift);
+                }
 
-							List<string> errors = ModelState.Values.SelectMany(ms => ms.Errors).Select(err => err.ErrorMessage).ToList();
-							errors.Add(result.ErrorMessage);
 
-							ViewBag.Errors = errors;
-							return View("Wishlist", model);
-						}
-						else
-						{
-							model.ChosenGifts.Add(otherGift);
-							break;
-						}
-					}
-				}
-			}
-			
+                //            foreach (string otherGift in otherGifts)
+                //{
+                //	foreach (Gift gift in model.PossibleGifts)
+                //	{
+
+
+                //                  GiftAvailibilityInList(gift.Name, otherGift)
+
+
+                //                  if (.ToLower() == .ToLower())
+                //{
+
+
+                //	//ValidationResult result = new ValidationResult(
+                //	//	errorMessage: "Een cadeautje dat je hebt gekozen staat al tussen de cadeautjes hierboven waar je uit kan kiezen!",
+                //	//	memberNames: new[] { "Other" }
+                //	//	);
+
+                //	//List<string> errors = ModelState.Values.SelectMany(ms => ms.Errors).Select(err => err.ErrorMessage).ToList();
+                //	//errors.Add(result.ErrorMessage);
+
+                //	//ViewBag.Errors = errors;
+                //	//return View("Wishlist", model);
+                //}
+                //else
+                //{
+                //	model.ChosenGifts.Add(otherGift);
+                //	break;
+                //}
+                //	}
+                //}
+            }
+
 			foreach (Gift gift in model.PossibleGifts)
 			{
 				foreach (GiftViewModel gvm in chosenGifts)
