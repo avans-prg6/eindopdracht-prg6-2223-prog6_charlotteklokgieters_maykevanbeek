@@ -49,7 +49,8 @@ namespace LogicLayer.KidValidation
 
 			int counter;
 			bool error = false;
-			if ((nicenessExample.Contains("Vrijwilligerswerk") || nicenessExample.Contains("vrijwilligerswerk")) && isNice) //rule 5
+			if (niceness != Niceness.Naughty && (nicenessExample.Contains("Vrijwilligerswerk") || nicenessExample.Contains("vrijwilligerswerk")) 
+				&& isNice) //rule 5
 			{
 				//no error, the kid can get as many gifts as they want
 			}
@@ -108,8 +109,13 @@ namespace LogicLayer.KidValidation
         //Validation rule 7: if the gift 'muziekinstrument' has been chosen, then the gift 'oordopjes' must also be chosen
         public void GiftCombinations(List<string> chosenGifts)
 		{
-			if ((chosenGifts.Contains("Lego") && chosenGifts.Contains("K'nex")) ||
-				(chosenGifts.Contains("lego voor dummies") && chosenGifts.Contains("K'nex voor dummies"))) //rule 2
+			foreach(string i in chosenGifts)
+			{
+				Console.WriteLine(i);
+			}
+			
+			if ((chosenGifts.Contains("Lego") && chosenGifts.Contains("K`nex")) ||
+				(chosenGifts.Contains("lego for dummies") && chosenGifts.Contains("Knex for dummies"))) //rule 2
 			{
                 _errorMessages = AddError("Je mag maar 1 cadeautje per cadeautype uitkiezen (bijv.: OF lego OF k'nex, niet beide).", _errorMessages);
             }
