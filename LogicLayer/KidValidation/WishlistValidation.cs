@@ -39,10 +39,10 @@ namespace LogicLayer.KidValidation
         //Validation rule 5: if a kid used the word 'vrijwilligerswerk' in the reason they've been nice, they can get as many gifts as they want
         public void CertainGiftAmount(List<string> chosenGifts, Niceness niceness, bool isNice, string name, string nicenessExample, string[] otherGifts)
 		{
-            if ((name == "stijn" && chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 2) ||
-                (otherGifts != null && !isNice && niceness != Niceness.Naughty && chosenGifts.Count() == 1 && otherGifts.Count() == 1) ||
-                (!isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 1) || 
-				(otherGifts != null && !isNice && niceness != Niceness.Naughty && otherGifts.Count() > 1)) //rules 1 && 4
+            if ((name == "stijn" && chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && niceness != Niceness.Naughty && 
+				chosenGifts.Count() > 2) || (name == "stijn" && !chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && 
+				niceness != Niceness.Naughty && chosenGifts.Count() > 1) || (name != "stijn" && !isNice && 
+				niceness != Niceness.Naughty && chosenGifts.Count() > 1)) //rules 1 && 4
 			{
                 _errorMessages = AddError("Je hebt gelogen dat je lief bent geweest, je mag dus maar 1 cadeautje kiezen.", _errorMessages);
             }
@@ -108,12 +108,7 @@ namespace LogicLayer.KidValidation
         //Validation rule 6: if the gift 'nachtlampje' has been chosen, then the gift 'ondergoed' must also be chosen
         //Validation rule 7: if the gift 'muziekinstrument' has been chosen, then the gift 'oordopjes' must also be chosen
         public void GiftCombinations(List<string> chosenGifts)
-		{
-			foreach(string i in chosenGifts)
-			{
-				Console.WriteLine(i);
-			}
-			
+		{			
 			if ((chosenGifts.Contains("Lego") && chosenGifts.Contains("K`nex")) ||
 				(chosenGifts.Contains("lego for dummies") && chosenGifts.Contains("Knex for dummies"))) //rule 2
 			{
