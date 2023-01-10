@@ -17,10 +17,10 @@ namespace Santa_WishList.Controllers
         private readonly ISantaRepository _repository;
         private readonly AccountController controller;
 
-        public SantaController(ISantaRepository repository, AccountController controller)
+        public SantaController(ISantaRepository injectedSantaRepository, AccountController injectedAccountController)
         {
-            _repository = repository;
-            this.controller = controller;
+            _repository = injectedSantaRepository;
+            this.controller = injectedAccountController;
         }
 
         public IActionResult Index()

@@ -11,10 +11,10 @@ namespace Santa_WishList.Controllers
 	[Authorize(Roles = "Child")]
 	public class KidController : Controller
 	{
-		private readonly GiftRepository giftRepository;
+		private readonly IGiftRepository giftRepository;
 		private readonly AccountController _accountController;
 
-		public KidController(GiftRepository injectedGiftRepository, AccountController accountController)
+		public KidController(IGiftRepository injectedGiftRepository, AccountController accountController)
 		{
 			giftRepository = injectedGiftRepository;
             _accountController = accountController;

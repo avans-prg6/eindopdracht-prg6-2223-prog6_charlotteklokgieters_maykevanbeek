@@ -16,12 +16,12 @@ namespace Santa_WishList.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(
-           UserManager<IdentityUser> userManager,
-           SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+           UserManager<IdentityUser> injectedUserManager,
+           SignInManager<IdentityUser> injectedSignInManager, RoleManager<IdentityRole> injectedRoleManager)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
+            _userManager = injectedUserManager;
+            _signInManager = injectedSignInManager;
+            _roleManager = injectedRoleManager;
         }
 
         [Authorize(Roles = "Santa")]

@@ -42,9 +42,9 @@ namespace Santa_WishList
                 options.AddPolicy("WishListDone", policy => policy.RequireClaim("WishListFilledIn"));
             });
 
-            services.AddScoped<GiftRepository>();
-            services.AddScoped<AccountController>();
+            services.AddScoped<IGiftRepository, GiftRepository>();
             services.AddScoped<ISantaRepository, SantaRepositorySQL>();
+            services.AddScoped<AccountController>();
 
             services.AddControllersWithViews();
         }
