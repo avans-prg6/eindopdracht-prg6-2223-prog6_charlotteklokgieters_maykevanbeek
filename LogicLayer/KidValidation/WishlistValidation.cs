@@ -1,6 +1,8 @@
+
 ﻿using Microsoft.AspNetCore.Identity;
 using Santa_WishList.Models.Enums;
 using SantasWishlist.Domain;
+
 
 namespace LogicLayer.KidValidation
 {
@@ -68,6 +70,7 @@ namespace LogicLayer.KidValidation
 							{
 								break;
 							}
+
 						}
 					}
 				}
