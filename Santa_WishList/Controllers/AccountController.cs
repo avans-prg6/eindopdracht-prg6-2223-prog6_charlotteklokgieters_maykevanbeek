@@ -95,6 +95,7 @@ namespace Santa_WishList.Controllers
             return LocalRedirect("/Account/Login");
         }
 
+        //[Authorize(Roles = "Child")]
         public async Task<IActionResult> AddWishListClaim(string name)
         {
             IdentityUser user = await _userManager.FindByNameAsync(name);

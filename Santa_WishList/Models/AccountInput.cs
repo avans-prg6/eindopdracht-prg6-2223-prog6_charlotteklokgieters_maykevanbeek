@@ -15,5 +15,17 @@ namespace Santa_WishList.Models
         public string Password { get; set; }
 
         public bool IsNice { get; set; }
+
+        public AccountInput()
+        {
+
+        }
+        
+        public AccountInput(string name, string password, bool isNice)
+        {
+            this.Name = name;
+            this.Password = password;
+            this.IsNice = isNice;
+        }
     }
 }

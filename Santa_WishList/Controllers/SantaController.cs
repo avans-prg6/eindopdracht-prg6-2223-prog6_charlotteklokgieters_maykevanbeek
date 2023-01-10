@@ -48,17 +48,11 @@ namespace Santa_WishList.Controllers
                 {
                     foreach (string kid in kids)
                     {
-                        AccountInput model = new AccountInput();
-                        model.Name = kid;
-                        model.Password = viewmodel.Password.ToLower();
-                        model.IsNice = viewmodel.BeenNice;
+                        AccountInput model = new AccountInput(kid, viewmodel.Password.ToLower(), viewmodel.BeenNice);
                         await controller.Register(model);
                     }
 
-                    SantaViewModel vm = new SantaViewModel();
-                    vm.KidsNames = viewmodel.KidsNames;
-                    vm.Password = viewmodel.Password;
-
+                    SantaViewModel vm = new SantaViewModel(viewmodel.KidsNames, viewmodel.Password);
                     return View("Overview", vm);
                 }
                 else

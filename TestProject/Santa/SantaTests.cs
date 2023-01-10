@@ -22,7 +22,7 @@ namespace TestProject
             string KidsNames = "hi, hi";
 
             //Act
-            ValidationResult result = ValidationMethods.CheckDubbleNames(KidsNames, new ValidationContext(KidsNames, null, null));
+            ValidationResult result = Santa.CheckDubbleNames(KidsNames, new ValidationContext(KidsNames, null, null));
 
             //Assert
             Assert.IsTrue(result != ValidationResult.Success);
@@ -35,7 +35,7 @@ namespace TestProject
             string KidsNames = "hi, hello";
 
             //Act
-            ValidationResult result = ValidationMethods.CheckDubbleNames(KidsNames, new ValidationContext(KidsNames, null, null));
+            ValidationResult result = Santa.CheckDubbleNames(KidsNames, new ValidationContext(KidsNames, null, null));
 
             //Assert
             Assert.IsTrue(result == ValidationResult.Success);
