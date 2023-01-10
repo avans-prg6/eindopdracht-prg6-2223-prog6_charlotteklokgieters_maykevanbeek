@@ -16,6 +16,11 @@ namespace LogicLayer.KidValidation
 			giftRepository = injectedGiftRepository;
 		}
 
+		public WishlistValidation()
+		{
+
+		}
+
         public static List<string> AddError(string error, List<string> list)
         {
             list.Add(error);

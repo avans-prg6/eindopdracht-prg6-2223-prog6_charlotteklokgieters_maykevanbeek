@@ -1,5 +1,7 @@
 ﻿using LogicLayer.KidValidation;
 using LogicLayer.Santa;
+using Moq;
+using SantasWishlist.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace TestProject
 {
+    [TestClass]
     public class ChildTests
     {
         [TestMethod]
@@ -143,6 +146,36 @@ namespace TestProject
             //Act
 
             //Assert
+        }
+
+        [TestMethod]
+        public void Rule9_Valid()
+        {
+            //Arrange
+            string name = "mayke";
+
+            //Act
+            Mock<IGiftRepository> giftMock = new Mock<IGiftRepository>();
+            WishlistValidation validation = new WishlistValidation(giftMock.Object);
+            bool test = validation.Rule9(name);
+
+            //Assert
+            Assert.IsTrue(!test);
+        }
+
+        [TestMethod]
+        public void Rule9_InValid()
+        {
+            //Arrange
+            string name = "stijn";
+
+            //Act
+            Mock<IGiftRepository> giftMock = new Mock<IGiftRepository>();
+            WishlistValidation validation = new WishlistValidation(giftMock.Object);
+            bool test = validation.Rule9(name);
+
+            //Assert
+            Assert.IsTrue(!test);
         }
     }
 }
