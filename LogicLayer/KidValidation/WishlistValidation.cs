@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Santa_WishList.Models.Enums;
 using SantasWishlist.Domain;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace LogicLayer.KidValidation
@@ -21,28 +22,35 @@ namespace LogicLayer.KidValidation
             return list;
         }
 
+		public void ResetErrors(List<string> list)
+        {
+            _errorMessages = new List<string>();
+            _errorMessages.Clear();
+        }
+
+		public List<string> GetErrors() { return _errorMessages; }
+
+		public int GetErrorCount() { return _errorMessages.Count(); }
+
         //Validation rule 1: max 3 gifts per category
         //						if naughty, 1 gift per category
         //						if naughty and lied about it, 1 gift total
         //Validation rule 4: Stijn can get Dolfje Weerwolfje as extra gift, on top of the max
-        //Validation rule 5: if a kid used the woord 'vrijwilligerswerk' in the reason they've been nice, they can get as many gifts as they want
-        public void CertainGiftAmount(List<string> chosenGifts, Niceness niceness, bool isNice, string name, string nicenessExample)
+        //Validation rule 5: if a kid used the word 'vrijwilligerswerk' in the reason they've been nice, they can get as many gifts as they want
+        public void CertainGiftAmount(List<string> chosenGifts, Niceness niceness, bool isNice, string name, string nicenessExample, string[] otherGifts)
 		{
-            _errorMessages = new List<string>();
-            //
-            _errorMessages.Clear();
-
-
-            if ((name == "Stijn" && chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 2) || 
-				(!isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 1)) //rules 1 && 4
+            if ((name == "Stijn" && chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 2) ||
+                (otherGifts != null && !isNice && niceness != Niceness.Naughty && chosenGifts.Count() == 1 && otherGifts.Count() == 1) ||
+                (!isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 1) || 
+				(otherGifts != null && !isNice && niceness != Niceness.Naughty && otherGifts.Count() > 1)) //rules 1 && 4
 			{
-				//TODO error, lied about niceness so they cant have more than 1 total gift, or no more than 2 if youre stijn and you chose dolfje weerwolfje
-			}
+                _errorMessages = AddError("Je hebt gelogen dat je lief bent geweest, je mag dus maar 1 cadeautje kiezen.", _errorMessages);
+            }
 
 			int counter;
 			if ((nicenessExample.Contains("Vrijwilligerswerk") || nicenessExample.Contains("vrijwilligerswerk")) && isNice) //rule 5
 			{
-				//TODO can get as many gifts as they want
+				//no error, the kid can get as many gifts as they want
 			}
 			else 
 			{
@@ -107,21 +115,36 @@ namespace LogicLayer.KidValidation
         }
 
 		//Validation rule 3: can divert from the age rating once
-		public void DivertFromAgeRating(List<string> chosenGifts, int age)
+		public void DivertFromAgeRating(List<string> chosenGifts, int? age)
 		{
-			int giftAmount = 0;
-			foreach(string gift in chosenGifts)
+			if (age == null)
 			{
-				if (giftRepository.CheckAge(gift) > age)
-				{
-					giftAmount++;
-				}
+                _errorMessages = AddError("Iets is misgegaan, leeftijd is null.", _errorMessages);
+            }
+			else
+			{
+                int giftAmount = 0;
+                foreach (string gift in chosenGifts)
+                {
+					foreach (Gift possibleGift in giftRepository.GetPossibleGifts())
+					{
+						if (possibleGift.Name == gift && giftRepository.CheckAge(gift) > age)
+						{
+                            giftAmount++;
+							break;
+                        }
+						else if (possibleGift.Name == gift)
+						{
+                            break;
+                        }
+					}
 
-				if (giftAmount > 1)
-				{
-                    _errorMessages = AddError("Je mag maar 1x afwijken van de leeftijdseisen van een cadeau.", _errorMessages);
+                    if (giftAmount > 1)
+                    {
+                        _errorMessages = AddError("Je mag maar 1x afwijken van de leeftijdseisen van een cadeau.", _errorMessages);
+                    }
                 }
-			}
+            }
 		}
 
 		//Validation rule 8: you can't fill in a gift that is already available in the list you can choose from
@@ -139,6 +162,14 @@ namespace LogicLayer.KidValidation
 			}
         }
 
-		//TODO 1 gift total also includes other gifts
+		//Validation rule 9: if your name is either Mayke or Charlotte none of the other rules apply
+		public bool Rule9(string name)
+		{
+            if (name == "Mayke" || name == "Charlotte") //rule 9
+            {
+				return true;
+            }
+			return false;
+        }
 	}
 }
