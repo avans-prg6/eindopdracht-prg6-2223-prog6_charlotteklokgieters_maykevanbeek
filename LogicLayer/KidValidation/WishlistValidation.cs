@@ -39,7 +39,7 @@ namespace LogicLayer.KidValidation
         //Validation rule 5: if a kid used the word 'vrijwilligerswerk' in the reason they've been nice, they can get as many gifts as they want
         public void CertainGiftAmount(List<string> chosenGifts, Niceness niceness, bool isNice, string name, string nicenessExample, string[] otherGifts)
 		{
-            if ((name == "Stijn" && chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 2) ||
+            if ((name == "stijn" && chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 2) ||
                 (otherGifts != null && !isNice && niceness != Niceness.Naughty && chosenGifts.Count() == 1 && otherGifts.Count() == 1) ||
                 (!isNice && niceness != Niceness.Naughty && chosenGifts.Count() > 1) || 
 				(otherGifts != null && !isNice && niceness != Niceness.Naughty && otherGifts.Count() > 1)) //rules 1 && 4
@@ -48,6 +48,7 @@ namespace LogicLayer.KidValidation
             }
 
 			int counter;
+			bool error = false;
 			if ((nicenessExample.Contains("Vrijwilligerswerk") || nicenessExample.Contains("vrijwilligerswerk")) && isNice) //rule 5
 			{
 				//no error, the kid can get as many gifts as they want
@@ -59,10 +60,15 @@ namespace LogicLayer.KidValidation
 					counter = 0;
 					foreach (string chosen in chosenGifts)
 					{
+						if (error)
+						{
+							break;
+						}
+
 						foreach (Gift possible in giftRepository.GetPossibleGifts())
 						{
 							bool giftCounted = false;
-							if (name == "Stijn" && chosen == possible.Name && chosen == "Dolfje Weerwolfje" && //rule 4
+							if (name == "stijn" && chosen == possible.Name && chosen == "Dolfje Weerwolfje" && //rule 4
 								possible.Category == category) 
 							{
 								giftCounted = true;
@@ -77,11 +83,15 @@ namespace LogicLayer.KidValidation
 							if (!isNice && niceness == Niceness.Naughty && counter > 1) //rule 1
 							{
                                 _errorMessages = AddError("Je mag maar 1 cadeau per categorie.", _errorMessages);
+								error = true;
+								break;
                             }
 							else if (isNice && counter > 3) //rule 1
 							{
                                 _errorMessages = AddError("Je mag maar 3 cadeaus per categorie.", _errorMessages);
-                            }
+								error = true;
+								break;
+							}
 
 							if (giftCounted)
 							{
@@ -142,6 +152,7 @@ namespace LogicLayer.KidValidation
                     if (giftAmount > 1)
                     {
                         _errorMessages = AddError("Je mag maar 1x afwijken van de leeftijdseisen van een cadeau.", _errorMessages);
+						break;
                     }
                 }
             }
@@ -150,22 +161,33 @@ namespace LogicLayer.KidValidation
 		//Validation rule 8: you can't fill in a gift that is already available in the list you can choose from
 		public void GiftAvailibilityInList(string[] otherGifts)
 		{
-			foreach (string otherGift in otherGifts)
+			bool error = false;
+			if (otherGifts != null)
 			{
-				foreach (Gift gift in giftRepository.GetPossibleGifts())
-				{
-					if (gift.Name.ToLower() == otherGift.ToLower())
+                foreach (string otherGift in otherGifts)
+                {
+					if (error)
 					{
-						_errorMessages = AddError("Een cadeau dat je hebt ingevuld staat al tussen de cadeaus waar je uit kan kiezen.", _errorMessages);
+						break;
 					}
-				}
-			}
+
+                    foreach (Gift gift in giftRepository.GetPossibleGifts())
+                    {
+                        if (gift.Name.ToLower() == otherGift.ToLower())
+                        {
+                            _errorMessages = AddError("Een cadeau dat je hebt ingevuld staat al tussen de cadeaus waar je uit kan kiezen.", _errorMessages);
+							error = true;
+							break;
+                        }
+                    }
+                }
+            }
         }
 
 		//Validation rule 9: if your name is either Mayke or Charlotte none of the other rules apply
 		public bool Rule9(string name)
 		{
-            if (name == "Mayke" || name == "Charlotte") //rule 9
+            if (name == "mayke" || name == "charlotte") //rule 9
             {
 				return true;
             }
