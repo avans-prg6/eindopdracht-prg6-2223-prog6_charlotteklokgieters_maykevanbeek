@@ -20,7 +20,7 @@ namespace Santa_WishList.Controllers
 		private readonly AccountController _accountController;
 		private WishlistValidation wishlistValidation;
 
-        public KidController(GiftRepository injectedGiftRepository, AccountController injectedAccountController)
+        public KidController(IGiftRepository injectedGiftRepository, AccountController injectedAccountController)
 		{
 			giftRepository = injectedGiftRepository;
             _accountController = injectedAccountController;
