@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using SantasWishlist_Data.Models
+
+@inject SignInManager<IdentityUser> SignInManager
+
+@{ var controller = this.ViewContext.RouteData.Values["controller"] != null ? this.ViewContext.RouteData.Values["controller"].ToString() : ""; }
+
+@if (SignInManager.IsSignedIn(User))
+{
+	<header>
+		<nav class="">
+			<div id="navigationMenu" class="">
+			@if (User.IsInRole("Santa"))
+			{
+				<a asp-controller="Santa" asp-action="Index" class="nav-link text-dark">Kinderen toevoegen</a>
+			}
+
+			@if (User.IsInRole("Child"))
+			{
+				<a asp-controller="Kid" asp-action="Index" class="nav-link text-dark">Verlanglijstje maken</a>
+			}
+			</div>
+		</nav>
+	</header>
+}

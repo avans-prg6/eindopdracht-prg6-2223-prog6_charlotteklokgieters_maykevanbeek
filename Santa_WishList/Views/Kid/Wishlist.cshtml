@@ -1,0 +1,132 @@
+﻿@model Kid;
+@using SantasWishlist.Domain;
+
+@{
+	ViewData["Title"] = "Verlanglijst";
+}
+
+@if (ViewBag.Errors != null)
+{
+	<div>
+		@for (int i = 0; i < ViewBag.Errors.Count; i++)
+		{
+			<strong class="font-bold" style="color:red">Er ging iets mis:</strong>
+			<span class="" style="color:red">@ViewBag.Errors[i]</span>
+			if (ViewBag.Errors.Count > 1 && ViewBag.Errors.Count - 1 != i)
+			{
+				<br />
+			}
+		}
+	</div>
+}
+
+<div class="text-left">	
+	<div>
+		<h1 class="display-4">Bedankt @Model.Name</h1>
+		<label>Nu is het tijd om je cadeautjes uit te kiezen!</label>
+		<br />
+		<label>De cadeautjes zijn opgedeeld in 4 categoriën en je mag voor elke categorie kiezen welke cadeautjes je wil!</label>
+		<br />
+	</div>
+
+	<form asp-controller="Kid" asp-action="ChoosingGifts">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h4>Iets dat je wil hebben</h4>
+
+					@foreach (Gift gift in Model.PossibleGifts)
+					{
+						@if (gift.Category == GiftCategory.WANT)
+						{
+							<div>
+								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift.Name">
+								<label>@gift.Name</label>
+							</div>
+						}
+					}
+				</div>
+
+				<div class="col">
+					<h4>Iets dat je moet hebben</h4>
+
+					@foreach (Gift gift in Model.PossibleGifts)
+					{
+						@if (gift.Category == GiftCategory.NEED)
+						{
+							<div>
+								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift.Name">
+								<label>@gift.Name</label>
+							</div>
+						}
+					}
+				</div>
+			</div>
+			<br />
+
+			<div class="row">
+				<div class="col">
+					<h4>Iets om te dragen</h4>
+
+					@foreach (Gift gift in Model.PossibleGifts)
+					{
+						@if (gift.Category == GiftCategory.WEAR)
+						{
+							<div>
+								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift.Name">
+								<label>@gift.Name</label>
+							</div>
+						}
+					}
+				</div>
+
+				<div class="col">
+					<h4>Iets om te lezen</h4>
+
+					@foreach (Gift gift in Model.PossibleGifts)
+					{
+						@if (gift.Category == GiftCategory.READ)
+						{
+							<div>
+								<input type="checkbox" class="" name="[@Model.PossibleGifts.IndexOf(gift)].IsChecked" value="true">
+								<input type="hidden" class="" name="[@Model.PossibleGifts.IndexOf(gift)].Gift" value="@gift.Name">
+								<label>@gift.Name</label>
+							</div>
+						}
+					}
+				</div>
+				<br />
+			</div>
+		</div>
+		<br />
+
+		<div>
+			<h2>Staat wat je wil er niet tussen?</h2>
+			<label asp-for="Other">Vul deze vraag alleen in als je zeker weet dat het cadeautje wat je wilt niet in de bovenstaande lijst staat!</label>
+			<br />
+			<input type="text" class="form-control" asp-for="Other" style="width: 200px;" placeholder="naam van cadeautje">
+
+			@if(ViewBag.Errors != null)
+			{
+				for(int i = 0; i < ViewBag.Errors.Count; i++)
+				{
+					if (ViewBag.Errors[i] == "Een cadeautje dat je hebt gekozen staat al tussen de cadeautjes hierboven waar je uit kan kiezen!")
+					{
+						<span style="color:red" class="block sm:inline">@ViewBag.Errors[i]</span>
+					}
+				}
+			}
+		</div>
+
+		<br />
+		<input type="hidden" class="" asp-for="Name" value="@Model.Name">
+		<input type="hidden" class="" asp-for="PossibleGifts" value="@Model.PossibleGifts">
+		<input type="hidden" class="" asp-for="Age" value="@Model.Age">
+		<input type="hidden" class="" asp-for="Niceness" value="@Model.Niceness">
+		<input type="hidden" class="" asp-for="NicenessExample" value="@Model.NicenessExample">
+		<button type="submit" class="btn btn-dark" name="save" role="button">Naar afronden!</button>
+	</form>
+</div>

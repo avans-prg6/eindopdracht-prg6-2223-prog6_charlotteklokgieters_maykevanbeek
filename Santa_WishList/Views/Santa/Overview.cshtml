@@ -1,0 +1,18 @@
+﻿@using Santa_WishList.Models.Viewmodels
+@model SantaViewModel;
+
+@{
+    ViewData["Title"] = "Comfirmation";
+}
+
+<div class="text-center">
+    <div>
+        <h1 class="display-4">Goed gewerkt Kerstman!</h1>
+        <p>De volgende kindjes kunnen nu inloggen:</p>
+    
+        <p>@Model.KidsNames</p>
+
+        <p>En hiervoor gebruiken ze het wachtwoord:</p>
+        <h2 class="display-4">@Model.Password</h2>
+    </div>
+</div>
