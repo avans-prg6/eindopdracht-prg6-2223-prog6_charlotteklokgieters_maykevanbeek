@@ -16,11 +16,6 @@ namespace LogicLayer.KidValidation
 			giftRepository = injectedGiftRepository;
 		}
 
-		public WishlistValidation()
-		{
-
-		}
-
         public static List<string> AddError(string error, List<string> list)
         {
             list.Add(error);
@@ -42,7 +37,7 @@ namespace LogicLayer.KidValidation
         //						if naughty and lied about it, 1 gift total
         //Validation rule 4: Stijn can get Dolfje Weerwolfje as extra gift, on top of the max
         //Validation rule 5: if a kid used the word 'vrijwilligerswerk' in the reason they've been nice, they can get as many gifts as they want
-        public void CertainGiftAmount(List<string> chosenGifts, Niceness niceness, bool isNice, string name, string nicenessExample, string[] otherGifts)
+        public void CertainGiftAmount(List<string> chosenGifts, Niceness niceness, bool isNice, string name, string nicenessExample)
 		{
             if ((name == "stijn" && chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && niceness != Niceness.Naughty && 
 				chosenGifts.Count() > 2) || (name == "stijn" && !chosenGifts.Contains("Dolfje Weerwolfje") && !isNice && 

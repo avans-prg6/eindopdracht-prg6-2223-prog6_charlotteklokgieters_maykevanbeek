@@ -89,7 +89,7 @@ namespace Santa_WishList.Controllers
 			if (!wishlistValidation.Rule9(model.Name))
 			{
 				wishlistValidation.CertainGiftAmount(model.ChosenGifts, model.Niceness, ((System.Security.Claims.ClaimsIdentity)User.Identity)
-					.HasClaim("BeenNice", "IsNice"), model.Name, model.NicenessExample, otherGifts);
+					.HasClaim("BeenNice", "IsNice"), model.Name, model.NicenessExample);
 				wishlistValidation.GiftCombinations(model.ChosenGifts);
 				wishlistValidation.DivertFromAgeRating(model.ChosenGifts, model.Age);
 				wishlistValidation.GiftAvailibilityInList(otherGifts);

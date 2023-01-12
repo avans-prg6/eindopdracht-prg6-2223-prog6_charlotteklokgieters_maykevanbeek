@@ -94,5 +94,18 @@ namespace TestProject
             //Assert
             Assert.IsTrue(result.Count == 1);
         }
+
+        [TestMethod]
+        public void AddErrors()
+        {
+            //Arrange
+            string message = "unittest";
+
+            //Act
+            List<string> result = General.AddError(message);
+
+            //Assert
+            Assert.IsTrue(result.Count == 1);
+        }
     }
 }
