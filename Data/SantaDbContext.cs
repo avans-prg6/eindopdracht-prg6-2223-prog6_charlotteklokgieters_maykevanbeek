@@ -14,18 +14,6 @@ namespace SantasWishlist_Data
         {
         }
 
-        //private IConfiguration Configuration => new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-        // .AddJsonFile("appsettings.json")
-        // .Build();
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DatabaseContext"));
-        //    }
-        //}
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<IdentityRole>().HasData(new Role("1", "Santa", "SANTA"));
