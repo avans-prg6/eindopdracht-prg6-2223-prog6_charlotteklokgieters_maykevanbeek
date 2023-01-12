@@ -1,26 +1,31 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LogicLayer.General;
+using LogicLayer.KidValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Santa_WishList.Models;
+using Santa_WishList.Models.Enums;
 using Santa_WishList.Models.Viewmodels;
 using SantasWishlist.Domain;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 using System.Xml.Linq;
-using static Santa_WishList.Controllers.KidController;
 
 namespace Santa_WishList.Controllers
 {
 	[Authorize(Roles = "Child")]
 	public class KidController : Controller
 	{
-		readonly GiftRepository giftRepository;
+		private readonly IGiftRepository giftRepository;
+		private readonly AccountController _accountController;
+		private WishlistValidation wishlistValidation;
 
-		public KidController(GiftRepository injectedGiftRepository)
+        public KidController(IGiftRepository injectedGiftRepository, AccountController injectedAccountController)
 		{
 			giftRepository = injectedGiftRepository;
-		}
+            _accountController = injectedAccountController;
+			wishlistValidation = new WishlistValidation(injectedGiftRepository);
+        }
 
 		[Route("{controller}")]
 		public IActionResult Index()
@@ -50,73 +55,56 @@ namespace Santa_WishList.Controllers
 		{
 			model.PossibleGifts = giftRepository.GetPossibleGifts();
 			model.ChosenGifts = new List<string>();
+			string[] otherGifts = null;
 
-			if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
 			{
 				List<string> errors = ModelState.Values.SelectMany(ms => ms.Errors).Select(err => err.ErrorMessage).ToList();
-
 				ViewBag.Errors = errors;
 				return View("Wishlist", model);
 			}
 
 			if (model.Other != null)
 			{
-				string[] otherGifts;
-				if (model.Other.Contains(", "))
-				{
-					 otherGifts = model.Other.Split(", ");
-				}
-				else if (model.Other.Contains(","))
-				{
-					otherGifts = model.Other.Split(",");
-				}
-				else
-				{
-					otherGifts = new string[1];
-					otherGifts[0] = model.Other;
-				}
-				
-				foreach (string otherGift in otherGifts)
-				{
-					foreach (Gift gift in model.PossibleGifts)
-					{
-						if (gift.Name.ToLower() == otherGift.ToLower())
-						{
-							ValidationResult result = new ValidationResult(
-								errorMessage: "Een cadeautje dat je hebt gekozen staat al tussen de cadeautjes hierboven waar je uit kan kiezen!",
-								memberNames: new[] { "Other" }
-								);
+				otherGifts = General.SplitString(model.Other);
+                foreach (string otherGift in otherGifts)
+                {
+                    model.ChosenGifts.Add(otherGift);
+                }
+            }
 
-							List<string> errors = ModelState.Values.SelectMany(ms => ms.Errors).Select(err => err.ErrorMessage).ToList();
-							errors.Add(result.ErrorMessage);
+            foreach (Gift gift in model.PossibleGifts)
+            {
+                foreach (GiftViewModel gvm in chosenGifts)
+                {
+                    if (gvm.IsChecked && gvm.Gift == gift.Name)
+                    {
+                        model.ChosenGifts.Add(gift.Name);
+                    }
+                }
+            }
 
-							ViewBag.Errors = errors;
-							return View("Wishlist", model);
-						}
-						else
-						{
-							model.ChosenGifts.Add(otherGift);
-							break;
-						}
-					}
-				}
+			//Checking the validation rules
+			wishlistValidation.ResetErrors(wishlistValidation.GetErrors());
+			if (!wishlistValidation.Rule9(model.Name))
+			{
+				wishlistValidation.CertainGiftAmount(model.ChosenGifts, model.Niceness, ((System.Security.Claims.ClaimsIdentity)User.Identity)
+					.HasClaim("BeenNice", "IsNice"), model.Name, model.NicenessExample, otherGifts);
+				wishlistValidation.GiftCombinations(model.ChosenGifts);
+				wishlistValidation.DivertFromAgeRating(model.ChosenGifts, model.Age);
+				wishlistValidation.GiftAvailibilityInList(otherGifts);
 			}
 			
-			foreach (Gift gift in model.PossibleGifts)
+			if (wishlistValidation.GetErrorCount() > 0)
 			{
-				foreach (GiftViewModel gvm in chosenGifts)
-				{
-					if (gvm.IsChecked && gvm.Gift == gift.Name)
-					{
-						model.ChosenGifts.Add(gift.Name); 
-					}
-				}
-			}
+                ViewBag.Errors = wishlistValidation.GetErrors();
+                return View("Wishlist", model);
+            }
 
 			return View("Confirmation", model);
 		}
 
-		public IActionResult Confirm(Kid model)
+		public async Task<IActionResult> Confirm(Kid model)
 		{
 			model.PossibleGifts = giftRepository.GetPossibleGifts();
 
@@ -143,9 +131,9 @@ namespace Santa_WishList.Controllers
 
 			giftRepository.SendWishList(list);
 
-			//TODO log out, can't log in again
-			return View();
-		}
+			await _accountController.AddWishListClaim(this.User.Identity.Name);
+			return await _accountController.Logout();
+        }
 
 		public IActionResult BackToWishlist(Kid model)
 		{

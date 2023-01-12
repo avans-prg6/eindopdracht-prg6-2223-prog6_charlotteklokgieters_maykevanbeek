@@ -1,9 +1,13 @@
+using LogicLayer.General;
+using LogicLayer.Santa;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Moq;
 using Santa_WishList.Controllers;
 using Santa_WishList.Models;
 using Santa_WishList.Models.Viewmodels;
 using SantasWishlist_Data;
+using SantasWishlist_Data.Repositories;
 using System.ComponentModel.DataAnnotations;
 
 namespace TestProject
@@ -18,7 +22,7 @@ namespace TestProject
             string KidsNames = "hi, hi";
 
             //Act
-            ValidationResult result = ValidationMethods.CheckDubbleNames(KidsNames, new ValidationContext(KidsNames, null, null));
+            ValidationResult result = Santa.CheckDubbleNames(KidsNames, new ValidationContext(KidsNames, null, null));
 
             //Assert
             Assert.IsTrue(result != ValidationResult.Success);
@@ -31,35 +35,33 @@ namespace TestProject
             string KidsNames = "hi, hello";
 
             //Act
-            ValidationResult result = ValidationMethods.CheckDubbleNames(KidsNames, new ValidationContext(KidsNames, null, null));
+            ValidationResult result = Santa.CheckDubbleNames(KidsNames, new ValidationContext(KidsNames, null, null));
 
             //Assert
             Assert.IsTrue(result == ValidationResult.Success);
         }
 
         [TestMethod]
-        public void SplittingNames_OneName_ValidOption1()
+        public void SplittingNames_TwoNames_WithSpace()
         {
             ////Arrange
-            SantaController controller = new SantaController();
-            string names = "hi, hi";
+            string longstring = "hi, hi";
 
             //Act
-            string[] list = controller.SplitNames(names);
+            string[] list = General.SplitString(longstring);
 
             //Assert
             Assert.IsTrue(list.Length == 2);
         }
 
         [TestMethod]
-        public void SplittingNames_OneName_ValidOption2()
+        public void SplittingNames_TwoNames_WithoutSpace()
         {
             //Arrange
-            SantaController controller = new SantaController();
-            string names = "hi,hi";
+            string longstring = "hi,hi";
 
             //Act
-            string[] list = controller.SplitNames(names);
+            string[] list = General.SplitString(longstring);
 
             //Assert
             Assert.IsTrue(list.Length == 2);
@@ -69,14 +71,28 @@ namespace TestProject
         public void SplittingNames_OneName()
         {
             //Arrange
-            SantaController controller = new SantaController();
-            string names = "hi";
+            string longstring = "hi";
 
             //Act
-            string[] list = controller.SplitNames(names);
+            string[] list = General.SplitString(longstring);
 
             //Assert
             Assert.IsTrue(list.Length == 1);
+        }
+
+        [TestMethod]
+        public void AddErrorsWithMessage()
+        {
+            //Arrange
+            string message = "unittest";
+            List<string> dubbles = new List<string>();
+            dubbles.Add("check");
+
+            //Act
+            List<string> result = Santa.AddErrorDubbles(message, dubbles);
+
+            //Assert
+            Assert.IsTrue(result.Count == 1);
         }
     }
 }

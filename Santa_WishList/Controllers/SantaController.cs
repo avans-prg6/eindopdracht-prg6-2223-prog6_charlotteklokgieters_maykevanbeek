@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LogicLayer.General;
+using LogicLayer.Santa;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Santa_WishList.Models;
 using Santa_WishList.Models.Viewmodels;
 using SantasWishlist_Data;
+using SantasWishlist_Data.Repositories;
 using System.Data;
 
 namespace Santa_WishList.Controllers
@@ -11,18 +14,13 @@ namespace Santa_WishList.Controllers
     [Authorize(Roles = "Santa")]
     public class SantaController : Controller
     {
-        private readonly SantaDbContext _context;
+        private readonly ISantaRepository _repository;
         private readonly AccountController controller;
 
-        public SantaController(SantaDbContext context, AccountController controller)
+        public SantaController(ISantaRepository injectedSantaRepository, AccountController injectedAccountController)
         {
-            _context = context;
-            this.controller = controller;
-        }
-
-        public SantaController()
-        {
-
+            _repository = injectedSantaRepository;
+            this.controller = injectedAccountController;
         }
 
         public IActionResult Index()
@@ -35,50 +33,31 @@ namespace Santa_WishList.Controllers
         {
             if (ModelState.IsValid)
             {
-                string[] kids = SplitNames(viewmodel.KidsNames);
+                string[] kids = General.SplitString(viewmodel.KidsNames);
 
-                bool error = false;
                 List<string> dubbles = new List<string>();
-
                 foreach (string kid in kids)
                 {
-                    if (_context.Users.Where(x => x.UserName == kid).FirstOrDefault() != null)
+                    if(_repository.NameExists(kid))
                     {
-                        error = true;
                         dubbles.Add(kid);
                     }
                 }
 
-                if (!error)
+                if (!dubbles.Any())
                 {
-                    Console.WriteLine(viewmodel.BeenNice);
                     foreach (string kid in kids)
                     {
-                        AccountInput model = new AccountInput();
-                        model.Name = kid;
-                        model.Password = viewmodel.Password.ToLower();
-                        model.IsNice = viewmodel.BeenNice;
+                        AccountInput model = new AccountInput(kid, viewmodel.Password.ToLower(), viewmodel.BeenNice);
                         await controller.Register(model);
                     }
 
-                    SantaViewModel vm = new SantaViewModel();
-                    vm.KidsNames = viewmodel.KidsNames;
-                    vm.Password = viewmodel.Password;
-
+                    SantaViewModel vm = new SantaViewModel(viewmodel.KidsNames, viewmodel.Password);
                     return View("Overview", vm);
                 }
                 else
                 {
-                    List<string> errors = new List<string>();
-
-                    string message = "De volgende namen komen al voor in de database: ";
-                    foreach (string name in dubbles)
-                    {
-                        message += name + " ";
-                    }
-                    errors.Add(message);
-                    ViewBag.Errors = errors;
-
+                    ViewBag.Errors = Santa.AddErrorDubbles("De volgende namen komen al voor in de database: ", dubbles); 
                     return View("Index", viewmodel);
                 }
             }
@@ -88,25 +67,5 @@ namespace Santa_WishList.Controllers
             }
         }
 
-        public string[] SplitNames(string names)
-        {
-            string[] kids;
-
-            if (names.Contains(", "))
-            {
-                kids = names.Split(", ");
-            }
-            else if (names.Contains(","))
-            {
-                kids = names.Split(",");
-            }
-            else
-            {
-                kids = new string[1];
-                kids[0] = names;
-            }
-
-            return kids;
-        }
     }
 }
